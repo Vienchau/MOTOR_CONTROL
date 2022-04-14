@@ -23,7 +23,7 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
-    ../../../../../../../media/vienchau/DATA/MY_WORK/Qt/Project/MOTORCONTROL/MOTOR_CONTROL_SW/mainwindow.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

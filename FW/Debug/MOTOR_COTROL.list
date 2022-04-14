@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00010d1c  00000000  00000000  00049db5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008b375  00000000  00000000  0005aad1  2**0
+ 18 .debug_str    0008b3b8  00000000  00000000  0005aad1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000e5e46  2**0
+ 19 .comment      00000050  00000000  00000000  000e5e89  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000402c  00000000  00000000  000e5e98  2**2
+ 20 .debug_frame  0000402c  00000000  00000000  000e5edc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1529,25 +1529,65 @@ Disassembly of section .text:
  80011a0:	40010c00 	.word	0x40010c00
 
 080011a4 <main>:
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
  80011a4:	e92d 43b0 	stmdb	sp!, {r4, r5, r7, r8, r9, lr}
  80011a8:	b082      	sub	sp, #8
  80011aa:	af00      	add	r7, sp, #0
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
  80011ac:	f001 fbde 	bl	800296c <HAL_Init>
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
  80011b0:	f000 fbc6 	bl	8001940 <SystemClock_Config>
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
  80011b4:	f7ff ffaa 	bl	800110c <MX_GPIO_Init>
+  MX_TIM2_Init();
  80011b8:	f001 f988 	bl	80024cc <MX_TIM2_Init>
+  MX_TIM3_Init();
  80011bc:	f001 f9d2 	bl	8002564 <MX_TIM3_Init>
+  MX_TIM4_Init();
  80011c0:	f001 fa2a 	bl	8002618 <MX_TIM4_Init>
+  MX_USART1_UART_Init();
  80011c4:	f001 fb2e 	bl	8002824 <MX_USART1_UART_Init>
+  /* USER CODE BEGIN 2 */
+  SerialInit();
  80011c8:	f001 f808 	bl	80021dc <SerialInit>
+  MotorInit();
  80011cc:	f000 fc74 	bl	8001ab8 <MotorInit>
+  tProcess = NONE;
  80011d0:	4bac      	ldr	r3, [pc, #688]	; (8001484 <main+0x2e0>)
  80011d2:	2201      	movs	r2, #1
  80011d4:	701a      	strb	r2, [r3, #0]
+  while (1)
+  {
+    /* USER CODE END WHILE */
+///TESET
+    /* USER CODE BEGIN 3 */
+	  if(g_bDataAvailable == true)
  80011d6:	4bac      	ldr	r3, [pc, #688]	; (8001488 <main+0x2e4>)
  80011d8:	781b      	ldrb	r3, [r3, #0]
  80011da:	2b00      	cmp	r3, #0
  80011dc:	d04d      	beq.n	800127a <main+0xd6>
+	      {
+	        if(StrCompare(g_strCommand, (uint8_t*)"SPID", 4))
  80011de:	2204      	movs	r2, #4
  80011e0:	49aa      	ldr	r1, [pc, #680]	; (800148c <main+0x2e8>)
  80011e2:	48ab      	ldr	r0, [pc, #684]	; (8001490 <main+0x2ec>)
@@ -1555,10 +1595,14 @@ Disassembly of section .text:
  80011e8:	4603      	mov	r3, r0
  80011ea:	2b00      	cmp	r3, #0
  80011ec:	d003      	beq.n	80011f6 <main+0x52>
+	        {
+	          tProcess = SPID;
  80011ee:	4ba5      	ldr	r3, [pc, #660]	; (8001484 <main+0x2e0>)
  80011f0:	2202      	movs	r2, #2
  80011f2:	701a      	strb	r2, [r3, #0]
  80011f4:	e03e      	b.n	8001274 <main+0xd0>
+	        }
+	        else if(StrCompare(g_strCommand, (uint8_t*)"CTUN", 4))
  80011f6:	2204      	movs	r2, #4
  80011f8:	49a6      	ldr	r1, [pc, #664]	; (8001494 <main+0x2f0>)
  80011fa:	48a5      	ldr	r0, [pc, #660]	; (8001490 <main+0x2ec>)
@@ -1566,10 +1610,14 @@ Disassembly of section .text:
  8001200:	4603      	mov	r3, r0
  8001202:	2b00      	cmp	r3, #0
  8001204:	d003      	beq.n	800120e <main+0x6a>
+	        {
+	          tProcess = CTUN_RES;
  8001206:	4b9f      	ldr	r3, [pc, #636]	; (8001484 <main+0x2e0>)
  8001208:	2204      	movs	r2, #4
  800120a:	701a      	strb	r2, [r3, #0]
  800120c:	e032      	b.n	8001274 <main+0xd0>
+	        }
+	        else if(StrCompare(g_strCommand, (uint8_t*)"GPID", 4))
  800120e:	2204      	movs	r2, #4
  8001210:	49a1      	ldr	r1, [pc, #644]	; (8001498 <main+0x2f4>)
  8001212:	489f      	ldr	r0, [pc, #636]	; (8001490 <main+0x2ec>)
@@ -1577,10 +1625,14 @@ Disassembly of section .text:
  8001218:	4603      	mov	r3, r0
  800121a:	2b00      	cmp	r3, #0
  800121c:	d003      	beq.n	8001226 <main+0x82>
+	        {
+	          tProcess = GPID;
  800121e:	4b99      	ldr	r3, [pc, #612]	; (8001484 <main+0x2e0>)
  8001220:	2205      	movs	r2, #5
  8001222:	701a      	strb	r2, [r3, #0]
  8001224:	e026      	b.n	8001274 <main+0xd0>
+	        }
+	        else if(StrCompare(g_strCommand, (uint8_t*)"CSET", 4))
  8001226:	2204      	movs	r2, #4
  8001228:	499c      	ldr	r1, [pc, #624]	; (800149c <main+0x2f8>)
  800122a:	4899      	ldr	r0, [pc, #612]	; (8001490 <main+0x2ec>)
@@ -1588,10 +1640,14 @@ Disassembly of section .text:
  8001230:	4603      	mov	r3, r0
  8001232:	2b00      	cmp	r3, #0
  8001234:	d003      	beq.n	800123e <main+0x9a>
+	        {
+	          tProcess = CSET;
  8001236:	4b93      	ldr	r3, [pc, #588]	; (8001484 <main+0x2e0>)
  8001238:	2206      	movs	r2, #6
  800123a:	701a      	strb	r2, [r3, #0]
  800123c:	e01a      	b.n	8001274 <main+0xd0>
+	        }
+	        else if(StrCompare(g_strCommand, (uint8_t*)"CRUN", 4))
  800123e:	2204      	movs	r2, #4
  8001240:	4997      	ldr	r1, [pc, #604]	; (80014a0 <main+0x2fc>)
  8001242:	4893      	ldr	r0, [pc, #588]	; (8001490 <main+0x2ec>)
@@ -1599,10 +1655,14 @@ Disassembly of section .text:
  8001248:	4603      	mov	r3, r0
  800124a:	2b00      	cmp	r3, #0
  800124c:	d003      	beq.n	8001256 <main+0xb2>
+	        {
+	          tProcess = CRUN_RES;
  800124e:	4b8d      	ldr	r3, [pc, #564]	; (8001484 <main+0x2e0>)
  8001250:	2208      	movs	r2, #8
  8001252:	701a      	strb	r2, [r3, #0]
  8001254:	e00e      	b.n	8001274 <main+0xd0>
+	        }
+	        else if(StrCompare(g_strCommand, (uint8_t*)"GRMS", 4))
  8001256:	2204      	movs	r2, #4
  8001258:	4992      	ldr	r1, [pc, #584]	; (80014a4 <main+0x300>)
  800125a:	488d      	ldr	r0, [pc, #564]	; (8001490 <main+0x2ec>)
@@ -1610,16 +1670,27 @@ Disassembly of section .text:
  8001260:	4603      	mov	r3, r0
  8001262:	2b00      	cmp	r3, #0
  8001264:	d003      	beq.n	800126e <main+0xca>
+	        {
+	          tProcess = GRMS;
  8001266:	4b87      	ldr	r3, [pc, #540]	; (8001484 <main+0x2e0>)
  8001268:	2209      	movs	r2, #9
  800126a:	701a      	strb	r2, [r3, #0]
  800126c:	e002      	b.n	8001274 <main+0xd0>
+	        }
+	        else
+	        {
+	          tProcess = NONE;
  800126e:	4b85      	ldr	r3, [pc, #532]	; (8001484 <main+0x2e0>)
  8001270:	2201      	movs	r2, #1
  8001272:	701a      	strb	r2, [r3, #0]
+	        }
+	        g_bDataAvailable = false;
  8001274:	4b84      	ldr	r3, [pc, #528]	; (8001488 <main+0x2e4>)
  8001276:	2200      	movs	r2, #0
  8001278:	701a      	strb	r2, [r3, #0]
+	      }
+
+	      switch(tProcess)
  800127a:	4b82      	ldr	r3, [pc, #520]	; (8001484 <main+0x2e0>)
  800127c:	781b      	ldrb	r3, [r3, #0]
  800127e:	3b01      	subs	r3, #1
@@ -1637,24 +1708,37 @@ Disassembly of section .text:
  80012a4:	08001815 	.word	0x08001815
  80012a8:	080017e7 	.word	0x080017e7
  80012ac:	08001821 	.word	0x08001821
+	      {
+	        case NONE:
+	          SerialAcceptReceive();
  80012b0:	f000 ffa2 	bl	80021f8 <SerialAcceptReceive>
+	          break;
  80012b4:	e324      	b.n	8001900 <main+0x75c>
+	        case SPID:
+	          SerialWriteComm(g_strCommand, g_nOption, g_nData);
  80012b6:	4a7c      	ldr	r2, [pc, #496]	; (80014a8 <main+0x304>)
  80012b8:	497c      	ldr	r1, [pc, #496]	; (80014ac <main+0x308>)
  80012ba:	4875      	ldr	r0, [pc, #468]	; (8001490 <main+0x2ec>)
  80012bc:	f000 ffaa 	bl	8002214 <SerialWriteComm>
+	          g_nCmdPulse = 0;
  80012c0:	4b7b      	ldr	r3, [pc, #492]	; (80014b0 <main+0x30c>)
  80012c2:	2200      	movs	r2, #0
  80012c4:	601a      	str	r2, [r3, #0]
+	          PIDReset(&tPIDControl);
  80012c6:	487b      	ldr	r0, [pc, #492]	; (80014b4 <main+0x310>)
  80012c8:	f000 fe96 	bl	8001ff8 <PIDReset>
+	          __HAL_TIM_SetCounter(&htim4, 32768);
  80012cc:	4b7a      	ldr	r3, [pc, #488]	; (80014b8 <main+0x314>)
  80012ce:	681b      	ldr	r3, [r3, #0]
  80012d0:	f44f 4200 	mov.w	r2, #32768	; 0x8000
  80012d4:	625a      	str	r2, [r3, #36]	; 0x24
+	          g_nIndex = 0;
  80012d6:	4b79      	ldr	r3, [pc, #484]	; (80014bc <main+0x318>)
  80012d8:	2200      	movs	r2, #0
  80012da:	801a      	strh	r2, [r3, #0]
+
+	          //get PID params
+	          tPIDControl.dKp = (float)g_nData[0] + (float)g_nData[1]/10;
  80012dc:	4b72      	ldr	r3, [pc, #456]	; (80014a8 <main+0x304>)
  80012de:	781b      	ldrb	r3, [r3, #0]
  80012e0:	4618      	mov	r0, r3
@@ -1676,6 +1760,7 @@ Disassembly of section .text:
  8001308:	461a      	mov	r2, r3
  800130a:	4b6a      	ldr	r3, [pc, #424]	; (80014b4 <main+0x310>)
  800130c:	601a      	str	r2, [r3, #0]
+	          tPIDControl.dKi = (float)g_nData[2] + (float)g_nData[3]/10;
  800130e:	4b66      	ldr	r3, [pc, #408]	; (80014a8 <main+0x304>)
  8001310:	789b      	ldrb	r3, [r3, #2]
  8001312:	4618      	mov	r0, r3
@@ -1697,6 +1782,7 @@ Disassembly of section .text:
  800133a:	461a      	mov	r2, r3
  800133c:	4b5d      	ldr	r3, [pc, #372]	; (80014b4 <main+0x310>)
  800133e:	605a      	str	r2, [r3, #4]
+	          tPIDControl.dKd = (float)g_nData[4] + (float)g_nData[5]/(pow((float)10,(float)g_nData[6]));
  8001340:	4b59      	ldr	r3, [pc, #356]	; (80014a8 <main+0x304>)
  8001342:	791b      	ldrb	r3, [r3, #4]
  8001344:	4618      	mov	r0, r3
@@ -1745,29 +1831,44 @@ Disassembly of section .text:
  80013b0:	4603      	mov	r3, r0
  80013b2:	4a40      	ldr	r2, [pc, #256]	; (80014b4 <main+0x310>)
  80013b4:	6093      	str	r3, [r2, #8]
+
+	          tProcess = NONE;
  80013b6:	4b33      	ldr	r3, [pc, #204]	; (8001484 <main+0x2e0>)
  80013b8:	2201      	movs	r2, #1
  80013ba:	701a      	strb	r2, [r3, #0]
+	          break;
  80013bc:	e2a0      	b.n	8001900 <main+0x75c>
+	        case CTUN_RES:
+	          SerialWriteComm(g_strCommand, g_nOption, g_nData);
  80013be:	4a3a      	ldr	r2, [pc, #232]	; (80014a8 <main+0x304>)
  80013c0:	493a      	ldr	r1, [pc, #232]	; (80014ac <main+0x308>)
  80013c2:	4833      	ldr	r0, [pc, #204]	; (8001490 <main+0x2ec>)
  80013c4:	f000 ff26 	bl	8002214 <SerialWriteComm>
+	          tProcess = CTUN;
  80013c8:	4b2e      	ldr	r3, [pc, #184]	; (8001484 <main+0x2e0>)
  80013ca:	2203      	movs	r2, #3
  80013cc:	701a      	strb	r2, [r3, #0]
+	          break;
  80013ce:	e297      	b.n	8001900 <main+0x75c>
+	        case CTUN:
+	          break;
+	        case GPID:
+	          for(int index = 0; index < (g_nIndex -1); index ++)
  80013d0:	2300      	movs	r3, #0
  80013d2:	607b      	str	r3, [r7, #4]
  80013d4:	e046      	b.n	8001464 <main+0x2c0>
+	          {
+	            sprintf((char*)g_strTxCommand, "%s", g_strCommand);
  80013d6:	4a2e      	ldr	r2, [pc, #184]	; (8001490 <main+0x2ec>)
  80013d8:	493b      	ldr	r1, [pc, #236]	; (80014c8 <main+0x324>)
  80013da:	483c      	ldr	r0, [pc, #240]	; (80014cc <main+0x328>)
  80013dc:	f004 f9ba 	bl	8005754 <siprintf>
+	            memset(g_nTxOption, '\0', 3);
  80013e0:	2203      	movs	r2, #3
  80013e2:	2100      	movs	r1, #0
  80013e4:	483a      	ldr	r0, [pc, #232]	; (80014d0 <main+0x32c>)
  80013e6:	f004 f8c1 	bl	800556c <memset>
+	            g_nTxData[6] = (tPIDControl.nSampleTuningPID[index]&0xFF00) >>8;
  80013ea:	4a32      	ldr	r2, [pc, #200]	; (80014b4 <main+0x310>)
  80013ec:	687b      	ldr	r3, [r7, #4]
  80013ee:	3308      	adds	r3, #8
@@ -1779,6 +1880,7 @@ Disassembly of section .text:
  80013fa:	b2da      	uxtb	r2, r3
  80013fc:	4b35      	ldr	r3, [pc, #212]	; (80014d4 <main+0x330>)
  80013fe:	719a      	strb	r2, [r3, #6]
+	            g_nTxData[7] = (tPIDControl.nSampleTuningPID[index]&0xFF);
  8001400:	4a2c      	ldr	r2, [pc, #176]	; (80014b4 <main+0x310>)
  8001402:	687b      	ldr	r3, [r7, #4]
  8001404:	3308      	adds	r3, #8
@@ -1788,39 +1890,51 @@ Disassembly of section .text:
  800140c:	b2da      	uxtb	r2, r3
  800140e:	4b31      	ldr	r3, [pc, #196]	; (80014d4 <main+0x330>)
  8001410:	71da      	strb	r2, [r3, #7]
+	            g_nTxData[2] = (index&0xFF00) >>8;
  8001412:	687b      	ldr	r3, [r7, #4]
  8001414:	121b      	asrs	r3, r3, #8
  8001416:	b2da      	uxtb	r2, r3
  8001418:	4b2e      	ldr	r3, [pc, #184]	; (80014d4 <main+0x330>)
  800141a:	709a      	strb	r2, [r3, #2]
+	            g_nTxData[3] = (index&0xFF);
  800141c:	687b      	ldr	r3, [r7, #4]
  800141e:	b2da      	uxtb	r2, r3
  8001420:	4b2c      	ldr	r3, [pc, #176]	; (80014d4 <main+0x330>)
  8001422:	70da      	strb	r2, [r3, #3]
+	            g_nTxData[0] = 0;
  8001424:	4b2b      	ldr	r3, [pc, #172]	; (80014d4 <main+0x330>)
  8001426:	2200      	movs	r2, #0
  8001428:	701a      	strb	r2, [r3, #0]
+	            g_nTxData[1] = 199;
  800142a:	4b2a      	ldr	r3, [pc, #168]	; (80014d4 <main+0x330>)
  800142c:	22c7      	movs	r2, #199	; 0xc7
  800142e:	705a      	strb	r2, [r3, #1]
+
+	            SerialWriteComm(g_strTxCommand, g_nTxOption, g_nTxData);
  8001430:	4a28      	ldr	r2, [pc, #160]	; (80014d4 <main+0x330>)
  8001432:	4927      	ldr	r1, [pc, #156]	; (80014d0 <main+0x32c>)
  8001434:	4825      	ldr	r0, [pc, #148]	; (80014cc <main+0x328>)
  8001436:	f000 feed 	bl	8002214 <SerialWriteComm>
+	            memset(g_strTxCommand, '\0', 4);
  800143a:	2204      	movs	r2, #4
  800143c:	2100      	movs	r1, #0
  800143e:	4823      	ldr	r0, [pc, #140]	; (80014cc <main+0x328>)
  8001440:	f004 f894 	bl	800556c <memset>
+	            memset(g_nTxOption, '\0', 3);
  8001444:	2203      	movs	r2, #3
  8001446:	2100      	movs	r1, #0
  8001448:	4821      	ldr	r0, [pc, #132]	; (80014d0 <main+0x32c>)
  800144a:	f004 f88f 	bl	800556c <memset>
+	            memset(g_nTxData, '\0', 8);
  800144e:	2208      	movs	r2, #8
  8001450:	2100      	movs	r1, #0
  8001452:	4820      	ldr	r0, [pc, #128]	; (80014d4 <main+0x330>)
  8001454:	f004 f88a 	bl	800556c <memset>
+
+	            HAL_Delay(30);
  8001458:	201e      	movs	r0, #30
  800145a:	f001 fae9 	bl	8002a30 <HAL_Delay>
+	          for(int index = 0; index < (g_nIndex -1); index ++)
  800145e:	687b      	ldr	r3, [r7, #4]
  8001460:	3301      	adds	r3, #1
  8001462:	607b      	str	r3, [r7, #4]
@@ -1830,13 +1944,18 @@ Disassembly of section .text:
  800146a:	687a      	ldr	r2, [r7, #4]
  800146c:	429a      	cmp	r2, r3
  800146e:	dbb2      	blt.n	80013d6 <main+0x232>
+	          }
+	          g_bDataAvailable = false;
  8001470:	4b05      	ldr	r3, [pc, #20]	; (8001488 <main+0x2e4>)
  8001472:	2200      	movs	r2, #0
  8001474:	701a      	strb	r2, [r3, #0]
+	          SerialAcceptReceive();
  8001476:	f000 febf 	bl	80021f8 <SerialAcceptReceive>
+	          tProcess = NONE;
  800147a:	4b02      	ldr	r3, [pc, #8]	; (8001484 <main+0x2e0>)
  800147c:	2201      	movs	r2, #1
  800147e:	701a      	strb	r2, [r3, #0]
+	          break;
  8001480:	e23e      	b.n	8001900 <main+0x75c>
  8001482:	bf00      	nop
  8001484:	200000a8 	.word	0x200000a8
@@ -1860,18 +1979,27 @@ Disassembly of section .text:
  80014cc:	20000098 	.word	0x20000098
  80014d0:	2000009c 	.word	0x2000009c
  80014d4:	200000a0 	.word	0x200000a0
+	        case CSET:
+	          SerialWriteComm(g_strCommand, g_nOption, g_nData);
  80014d8:	4a9e      	ldr	r2, [pc, #632]	; (8001754 <main+0x5b0>)
  80014da:	499f      	ldr	r1, [pc, #636]	; (8001758 <main+0x5b4>)
  80014dc:	489f      	ldr	r0, [pc, #636]	; (800175c <main+0x5b8>)
  80014de:	f000 fe99 	bl	8002214 <SerialWriteComm>
+
+	          PIDReset(&tPIDControl);
  80014e2:	489f      	ldr	r0, [pc, #636]	; (8001760 <main+0x5bc>)
  80014e4:	f000 fd88 	bl	8001ff8 <PIDReset>
+	          g_nActPulse = 0;
  80014e8:	4b9e      	ldr	r3, [pc, #632]	; (8001764 <main+0x5c0>)
  80014ea:	2200      	movs	r2, #0
  80014ec:	601a      	str	r2, [r3, #0]
+	          g_nCmdPulse = 0 ;
  80014ee:	4b9e      	ldr	r3, [pc, #632]	; (8001768 <main+0x5c4>)
  80014f0:	2200      	movs	r2, #0
  80014f2:	601a      	str	r2, [r3, #0]
+
+	          //Get Pmax, Vmax, Amax,
+	          tProfile.dAccelMax = (float)((g_nData[2]>>4) *4096) + (float)((g_nData[2] & 0x0F) *256) + (float)((g_nData[3] >> 4)*16) + (float)((g_nData[3]&0x0F)*1);
  80014f4:	4b97      	ldr	r3, [pc, #604]	; (8001754 <main+0x5b0>)
  80014f6:	789b      	ldrb	r3, [r3, #2]
  80014f8:	091b      	lsrs	r3, r3, #4
@@ -1918,6 +2046,7 @@ Disassembly of section .text:
  800155c:	461a      	mov	r2, r3
  800155e:	4b83      	ldr	r3, [pc, #524]	; (800176c <main+0x5c8>)
  8001560:	601a      	str	r2, [r3, #0]
+	          tProfile.dVelMax = (float)((g_nData[4]>>4) *4096) + (float)((g_nData[4] & 0x0F) *256) + (float)((g_nData[5] >> 4)*16) + (float)((g_nData[5]&0x0F)*1);
  8001562:	4b7c      	ldr	r3, [pc, #496]	; (8001754 <main+0x5b0>)
  8001564:	791b      	ldrb	r3, [r3, #4]
  8001566:	091b      	lsrs	r3, r3, #4
@@ -1964,6 +2093,7 @@ Disassembly of section .text:
  80015ca:	461a      	mov	r2, r3
  80015cc:	4b67      	ldr	r3, [pc, #412]	; (800176c <main+0x5c8>)
  80015ce:	605a      	str	r2, [r3, #4]
+	          tProfile.dPosMax = (float)((g_nData[6]>>4) *4096) + (float)((g_nData[6] & 0x0F) *256) + (float)((g_nData[7] >> 4)*16) + (float)((g_nData[7]&0x0F)*1);
  80015d0:	4b60      	ldr	r3, [pc, #384]	; (8001754 <main+0x5b0>)
  80015d2:	799b      	ldrb	r3, [r3, #6]
  80015d4:	091b      	lsrs	r3, r3, #4
@@ -2010,6 +2140,9 @@ Disassembly of section .text:
  8001638:	461a      	mov	r2, r3
  800163a:	4b4c      	ldr	r3, [pc, #304]	; (800176c <main+0x5c8>)
  800163c:	609a      	str	r2, [r3, #8]
+
+	          //Calculate params for trapezoidal speed
+	          tProfile.dA1 = 0.5f * tProfile.dAccelMax;
  800163e:	4b4b      	ldr	r3, [pc, #300]	; (800176c <main+0x5c8>)
  8001640:	681b      	ldr	r3, [r3, #0]
  8001642:	f04f 517c 	mov.w	r1, #1056964608	; 0x3f000000
@@ -2019,10 +2152,12 @@ Disassembly of section .text:
  800164e:	461a      	mov	r2, r3
  8001650:	4b46      	ldr	r3, [pc, #280]	; (800176c <main+0x5c8>)
  8001652:	60da      	str	r2, [r3, #12]
+	          tProfile.dA2 = tProfile.dVelMax;
  8001654:	4b45      	ldr	r3, [pc, #276]	; (800176c <main+0x5c8>)
  8001656:	685b      	ldr	r3, [r3, #4]
  8001658:	4a44      	ldr	r2, [pc, #272]	; (800176c <main+0x5c8>)
  800165a:	6113      	str	r3, [r2, #16]
+	          tProfile.dB2 = -0.5f * tProfile.dVelMax * tProfile.dVelMax / tProfile.dAccelMax;
  800165c:	4b43      	ldr	r3, [pc, #268]	; (800176c <main+0x5c8>)
  800165e:	685b      	ldr	r3, [r3, #4]
  8001660:	f04f 413f 	mov.w	r1, #3204448256	; 0xbf000000
@@ -2046,6 +2181,7 @@ Disassembly of section .text:
  800168c:	461a      	mov	r2, r3
  800168e:	4b37      	ldr	r3, [pc, #220]	; (800176c <main+0x5c8>)
  8001690:	615a      	str	r2, [r3, #20]
+	          tProfile.dA3 = -0.5f * tProfile.dAccelMax;
  8001692:	4b36      	ldr	r3, [pc, #216]	; (800176c <main+0x5c8>)
  8001694:	681b      	ldr	r3, [r3, #0]
  8001696:	f04f 413f 	mov.w	r1, #3204448256	; 0xbf000000
@@ -2055,6 +2191,7 @@ Disassembly of section .text:
  80016a2:	461a      	mov	r2, r3
  80016a4:	4b31      	ldr	r3, [pc, #196]	; (800176c <main+0x5c8>)
  80016a6:	619a      	str	r2, [r3, #24]
+	          tProfile.dB3 = tProfile.dPosMax * tProfile.dAccelMax / tProfile.dVelMax + tProfile.dVelMax;
  80016a8:	4b30      	ldr	r3, [pc, #192]	; (800176c <main+0x5c8>)
  80016aa:	689b      	ldr	r3, [r3, #8]
  80016ac:	4a2f      	ldr	r2, [pc, #188]	; (800176c <main+0x5c8>)
@@ -2080,6 +2217,7 @@ Disassembly of section .text:
  80016da:	461a      	mov	r2, r3
  80016dc:	4b23      	ldr	r3, [pc, #140]	; (800176c <main+0x5c8>)
  80016de:	61da      	str	r2, [r3, #28]
+	          tProfile.dC3 = -0.5f * tProfile.dPosMax*tProfile.dPosMax*tProfile.dAccelMax/ (tProfile.dVelMax * tProfile.dVelMax) - 0.5f *tProfile.dVelMax * tProfile.dVelMax/tProfile.dAccelMax;
  80016e0:	4b22      	ldr	r3, [pc, #136]	; (800176c <main+0x5c8>)
  80016e2:	689b      	ldr	r3, [r3, #8]
  80016e4:	f04f 413f 	mov.w	r1, #3204448256	; 0xbf000000
@@ -2149,6 +2287,9 @@ Disassembly of section .text:
  8001788:	461a      	mov	r2, r3
  800178a:	4b5e      	ldr	r3, [pc, #376]	; (8001904 <main+0x760>)
  800178c:	621a      	str	r2, [r3, #32]
+
+
+	          tProfile.dMidStep1 = tProfile.dVelMax / tProfile.dAccelMax;
  800178e:	4b5d      	ldr	r3, [pc, #372]	; (8001904 <main+0x760>)
  8001790:	685b      	ldr	r3, [r3, #4]
  8001792:	4a5c      	ldr	r2, [pc, #368]	; (8001904 <main+0x760>)
@@ -2160,6 +2301,7 @@ Disassembly of section .text:
  80017a0:	461a      	mov	r2, r3
  80017a2:	4b58      	ldr	r3, [pc, #352]	; (8001904 <main+0x760>)
  80017a4:	625a      	str	r2, [r3, #36]	; 0x24
+	          tProfile.dMidStep2 = tProfile.dPosMax / tProfile.dVelMax;
  80017a6:	4b57      	ldr	r3, [pc, #348]	; (8001904 <main+0x760>)
  80017a8:	689b      	ldr	r3, [r3, #8]
  80017aa:	4a56      	ldr	r2, [pc, #344]	; (8001904 <main+0x760>)
@@ -2171,6 +2313,7 @@ Disassembly of section .text:
  80017b8:	461a      	mov	r2, r3
  80017ba:	4b52      	ldr	r3, [pc, #328]	; (8001904 <main+0x760>)
  80017bc:	629a      	str	r2, [r3, #40]	; 0x28
+	          tProfile.dMidStep3 = tProfile.dMidStep1 / tProfile.dMidStep2;
  80017be:	4b51      	ldr	r3, [pc, #324]	; (8001904 <main+0x760>)
  80017c0:	6a5b      	ldr	r3, [r3, #36]	; 0x24
  80017c2:	4a50      	ldr	r2, [pc, #320]	; (8001904 <main+0x760>)
@@ -2182,49 +2325,72 @@ Disassembly of section .text:
  80017d0:	461a      	mov	r2, r3
  80017d2:	4b4c      	ldr	r3, [pc, #304]	; (8001904 <main+0x760>)
  80017d4:	62da      	str	r2, [r3, #44]	; 0x2c
+
+	          tProfile.nTime = 0;
  80017d6:	4b4b      	ldr	r3, [pc, #300]	; (8001904 <main+0x760>)
  80017d8:	f04f 0200 	mov.w	r2, #0
  80017dc:	631a      	str	r2, [r3, #48]	; 0x30
+	          tProcess = NONE;
  80017de:	4b4a      	ldr	r3, [pc, #296]	; (8001908 <main+0x764>)
  80017e0:	2201      	movs	r2, #1
  80017e2:	701a      	strb	r2, [r3, #0]
+	          break;
  80017e4:	e08c      	b.n	8001900 <main+0x75c>
+
+	        case CRUN_RES:
+	          SerialWriteComm(g_strCommand, g_nOption, g_nData);
  80017e6:	4a49      	ldr	r2, [pc, #292]	; (800190c <main+0x768>)
  80017e8:	4949      	ldr	r1, [pc, #292]	; (8001910 <main+0x76c>)
  80017ea:	484a      	ldr	r0, [pc, #296]	; (8001914 <main+0x770>)
  80017ec:	f000 fd12 	bl	8002214 <SerialWriteComm>
+	          g_nCmdPulse = 0;
  80017f0:	4b49      	ldr	r3, [pc, #292]	; (8001918 <main+0x774>)
  80017f2:	2200      	movs	r2, #0
  80017f4:	601a      	str	r2, [r3, #0]
+	          PIDReset(&tPIDControl);
  80017f6:	4849      	ldr	r0, [pc, #292]	; (800191c <main+0x778>)
  80017f8:	f000 fbfe 	bl	8001ff8 <PIDReset>
+	          __HAL_TIM_SetCounter(&htim4, 32768);
  80017fc:	4b48      	ldr	r3, [pc, #288]	; (8001920 <main+0x77c>)
  80017fe:	681b      	ldr	r3, [r3, #0]
  8001800:	f44f 4200 	mov.w	r2, #32768	; 0x8000
  8001804:	625a      	str	r2, [r3, #36]	; 0x24
+	          g_nIndex = 0 ;
  8001806:	4b47      	ldr	r3, [pc, #284]	; (8001924 <main+0x780>)
  8001808:	2200      	movs	r2, #0
  800180a:	801a      	strh	r2, [r3, #0]
+	          tProcess = CRUN;
  800180c:	4b3e      	ldr	r3, [pc, #248]	; (8001908 <main+0x764>)
  800180e:	2207      	movs	r2, #7
  8001810:	701a      	strb	r2, [r3, #0]
+	          break;
  8001812:	e075      	b.n	8001900 <main+0x75c>
+	        case CRUN:
+	          g_bDataAvailable = false;
  8001814:	4b44      	ldr	r3, [pc, #272]	; (8001928 <main+0x784>)
  8001816:	2200      	movs	r2, #0
  8001818:	701a      	strb	r2, [r3, #0]
+	          SerialAcceptReceive();
  800181a:	f000 fced 	bl	80021f8 <SerialAcceptReceive>
+	          break;
  800181e:	e06f      	b.n	8001900 <main+0x75c>
+	        case GRMS:
+	          for(int index = 0 ; index < (g_nIndex - 1); index ++)
  8001820:	2300      	movs	r3, #0
  8001822:	603b      	str	r3, [r7, #0]
  8001824:	e05d      	b.n	80018e2 <main+0x73e>
+	          {
+	            sprintf((char*)g_strTxCommand, "%s", g_strCommand);
  8001826:	4a3b      	ldr	r2, [pc, #236]	; (8001914 <main+0x770>)
  8001828:	4940      	ldr	r1, [pc, #256]	; (800192c <main+0x788>)
  800182a:	4841      	ldr	r0, [pc, #260]	; (8001930 <main+0x78c>)
  800182c:	f003 ff92 	bl	8005754 <siprintf>
+	            memset(g_nTxOption, '\0', 3);
  8001830:	2203      	movs	r2, #3
  8001832:	2100      	movs	r1, #0
  8001834:	483f      	ldr	r0, [pc, #252]	; (8001934 <main+0x790>)
  8001836:	f003 fe99 	bl	800556c <memset>
+	            g_nTxData[6] = (tPIDControl.nActPosSample[index]&0xFF00) >>8;
  800183a:	4a38      	ldr	r2, [pc, #224]	; (800191c <main+0x778>)
  800183c:	683b      	ldr	r3, [r7, #0]
  800183e:	33d0      	adds	r3, #208	; 0xd0
@@ -2236,6 +2402,7 @@ Disassembly of section .text:
  800184a:	b2da      	uxtb	r2, r3
  800184c:	4b3a      	ldr	r3, [pc, #232]	; (8001938 <main+0x794>)
  800184e:	719a      	strb	r2, [r3, #6]
+	            g_nTxData[7] = (tPIDControl.nActPosSample[index]&0xFF);
  8001850:	4a32      	ldr	r2, [pc, #200]	; (800191c <main+0x778>)
  8001852:	683b      	ldr	r3, [r7, #0]
  8001854:	33d0      	adds	r3, #208	; 0xd0
@@ -2245,6 +2412,7 @@ Disassembly of section .text:
  800185c:	b2da      	uxtb	r2, r3
  800185e:	4b36      	ldr	r3, [pc, #216]	; (8001938 <main+0x794>)
  8001860:	71da      	strb	r2, [r3, #7]
+	            g_nTxData[4] = ((uint16_t)g_dPIDError&0xFF00)>>8;
  8001862:	4b36      	ldr	r3, [pc, #216]	; (800193c <main+0x798>)
  8001864:	681b      	ldr	r3, [r3, #0]
  8001866:	4618      	mov	r0, r3
@@ -2256,18 +2424,22 @@ Disassembly of section .text:
  8001874:	b2da      	uxtb	r2, r3
  8001876:	4b30      	ldr	r3, [pc, #192]	; (8001938 <main+0x794>)
  8001878:	711a      	strb	r2, [r3, #4]
+	            g_nTxData[5] = ((uint16_t)g_dPIDError&0xFF)>>8;
  800187a:	4b2f      	ldr	r3, [pc, #188]	; (8001938 <main+0x794>)
  800187c:	2200      	movs	r2, #0
  800187e:	715a      	strb	r2, [r3, #5]
+	            g_nTxData[2] = (index&0xFF00) >>8;
  8001880:	683b      	ldr	r3, [r7, #0]
  8001882:	121b      	asrs	r3, r3, #8
  8001884:	b2da      	uxtb	r2, r3
  8001886:	4b2c      	ldr	r3, [pc, #176]	; (8001938 <main+0x794>)
  8001888:	709a      	strb	r2, [r3, #2]
+	            g_nTxData[3] = (index&0xFF);
  800188a:	683b      	ldr	r3, [r7, #0]
  800188c:	b2da      	uxtb	r2, r3
  800188e:	4b2a      	ldr	r3, [pc, #168]	; (8001938 <main+0x794>)
  8001890:	70da      	strb	r2, [r3, #3]
+	            g_nTxData[0] = ((g_nIndex -2)&0xFF00)>>8;
  8001892:	4b24      	ldr	r3, [pc, #144]	; (8001924 <main+0x780>)
  8001894:	881b      	ldrh	r3, [r3, #0]
  8001896:	3b02      	subs	r3, #2
@@ -2275,6 +2447,7 @@ Disassembly of section .text:
  800189a:	b2da      	uxtb	r2, r3
  800189c:	4b26      	ldr	r3, [pc, #152]	; (8001938 <main+0x794>)
  800189e:	701a      	strb	r2, [r3, #0]
+	            g_nTxData[1] = ((g_nIndex -2)&0xFF);
  80018a0:	4b20      	ldr	r3, [pc, #128]	; (8001924 <main+0x780>)
  80018a2:	881b      	ldrh	r3, [r3, #0]
  80018a4:	b2db      	uxtb	r3, r3
@@ -2282,24 +2455,32 @@ Disassembly of section .text:
  80018a8:	b2da      	uxtb	r2, r3
  80018aa:	4b23      	ldr	r3, [pc, #140]	; (8001938 <main+0x794>)
  80018ac:	705a      	strb	r2, [r3, #1]
+
+	            SerialWriteComm(g_strTxCommand, g_nTxOption, g_nTxData);
  80018ae:	4a22      	ldr	r2, [pc, #136]	; (8001938 <main+0x794>)
  80018b0:	4920      	ldr	r1, [pc, #128]	; (8001934 <main+0x790>)
  80018b2:	481f      	ldr	r0, [pc, #124]	; (8001930 <main+0x78c>)
  80018b4:	f000 fcae 	bl	8002214 <SerialWriteComm>
+	            memset(g_strTxCommand, '\0', 4);
  80018b8:	2204      	movs	r2, #4
  80018ba:	2100      	movs	r1, #0
  80018bc:	481c      	ldr	r0, [pc, #112]	; (8001930 <main+0x78c>)
  80018be:	f003 fe55 	bl	800556c <memset>
+	            memset(g_nTxOption, '\0', 3);
  80018c2:	2203      	movs	r2, #3
  80018c4:	2100      	movs	r1, #0
  80018c6:	481b      	ldr	r0, [pc, #108]	; (8001934 <main+0x790>)
  80018c8:	f003 fe50 	bl	800556c <memset>
+	            memset(g_nTxData, '\0', 8);
  80018cc:	2208      	movs	r2, #8
  80018ce:	2100      	movs	r1, #0
  80018d0:	4819      	ldr	r0, [pc, #100]	; (8001938 <main+0x794>)
  80018d2:	f003 fe4b 	bl	800556c <memset>
+
+	            HAL_Delay(30);
  80018d6:	201e      	movs	r0, #30
  80018d8:	f001 f8aa 	bl	8002a30 <HAL_Delay>
+	          for(int index = 0 ; index < (g_nIndex - 1); index ++)
  80018dc:	683b      	ldr	r3, [r7, #0]
  80018de:	3301      	adds	r3, #1
  80018e0:	603b      	str	r3, [r7, #0]
@@ -2309,14 +2490,20 @@ Disassembly of section .text:
  80018e8:	683a      	ldr	r2, [r7, #0]
  80018ea:	429a      	cmp	r2, r3
  80018ec:	db9b      	blt.n	8001826 <main+0x682>
+	          }
+	          g_bDataAvailable = false;
  80018ee:	4b0e      	ldr	r3, [pc, #56]	; (8001928 <main+0x784>)
  80018f0:	2200      	movs	r2, #0
  80018f2:	701a      	strb	r2, [r3, #0]
+	          SerialAcceptReceive();
  80018f4:	f000 fc80 	bl	80021f8 <SerialAcceptReceive>
+	          tProcess = NONE;
  80018f8:	4b03      	ldr	r3, [pc, #12]	; (8001908 <main+0x764>)
  80018fa:	2201      	movs	r2, #1
  80018fc:	701a      	strb	r2, [r3, #0]
+	          break;
  80018fe:	bf00      	nop
+	  if(g_bDataAvailable == true)
  8001900:	e469      	b.n	80011d6 <main+0x32>
  8001902:	bf00      	nop
  8001904:	20000a20 	.word	0x20000a20
@@ -2336,14 +2523,22 @@ Disassembly of section .text:
  800193c:	20000a68 	.word	0x20000a68
 
 08001940 <SystemClock_Config>:
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
  8001940:	b580      	push	{r7, lr}
  8001942:	b090      	sub	sp, #64	; 0x40
  8001944:	af00      	add	r7, sp, #0
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
  8001946:	f107 0318 	add.w	r3, r7, #24
  800194a:	2228      	movs	r2, #40	; 0x28
  800194c:	2100      	movs	r1, #0
  800194e:	4618      	mov	r0, r3
  8001950:	f003 fe0c 	bl	800556c <memset>
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  8001954:	1d3b      	adds	r3, r7, #4
  8001956:	2200      	movs	r2, #0
  8001958:	601a      	str	r2, [r3, #0]
@@ -2351,37 +2546,63 @@ Disassembly of section .text:
  800195c:	609a      	str	r2, [r3, #8]
  800195e:	60da      	str	r2, [r3, #12]
  8001960:	611a      	str	r2, [r3, #16]
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
  8001962:	2301      	movs	r3, #1
  8001964:	61bb      	str	r3, [r7, #24]
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
  8001966:	f44f 3380 	mov.w	r3, #65536	; 0x10000
  800196a:	61fb      	str	r3, [r7, #28]
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
  800196c:	2300      	movs	r3, #0
  800196e:	623b      	str	r3, [r7, #32]
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
  8001970:	2301      	movs	r3, #1
  8001972:	62bb      	str	r3, [r7, #40]	; 0x28
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  8001974:	2302      	movs	r3, #2
  8001976:	637b      	str	r3, [r7, #52]	; 0x34
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
  8001978:	f44f 3380 	mov.w	r3, #65536	; 0x10000
  800197c:	63bb      	str	r3, [r7, #56]	; 0x38
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
  800197e:	f44f 13e0 	mov.w	r3, #1835008	; 0x1c0000
  8001982:	63fb      	str	r3, [r7, #60]	; 0x3c
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  8001984:	f107 0318 	add.w	r3, r7, #24
  8001988:	4618      	mov	r0, r3
  800198a:	f001 fbcf 	bl	800312c <HAL_RCC_OscConfig>
  800198e:	4603      	mov	r3, r0
  8001990:	2b00      	cmp	r3, #0
  8001992:	d001      	beq.n	8001998 <SystemClock_Config+0x58>
+  {
+    Error_Handler();
  8001994:	f000 f85a 	bl	8001a4c <Error_Handler>
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
  8001998:	230f      	movs	r3, #15
  800199a:	607b      	str	r3, [r7, #4]
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  800199c:	2302      	movs	r3, #2
  800199e:	60bb      	str	r3, [r7, #8]
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
  80019a0:	2300      	movs	r3, #0
  80019a2:	60fb      	str	r3, [r7, #12]
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
  80019a4:	f44f 6380 	mov.w	r3, #1024	; 0x400
  80019a8:	613b      	str	r3, [r7, #16]
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
  80019aa:	2300      	movs	r3, #0
  80019ac:	617b      	str	r3, [r7, #20]
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
  80019ae:	1d3b      	adds	r3, r7, #4
  80019b0:	2102      	movs	r1, #2
  80019b2:	4618      	mov	r0, r3
@@ -2389,7 +2610,11 @@ Disassembly of section .text:
  80019b8:	4603      	mov	r3, r0
  80019ba:	2b00      	cmp	r3, #0
  80019bc:	d001      	beq.n	80019c2 <SystemClock_Config+0x82>
+  {
+    Error_Handler();
  80019be:	f000 f845 	bl	8001a4c <Error_Handler>
+  }
+}
  80019c2:	bf00      	nop
  80019c4:	3740      	adds	r7, #64	; 0x40
  80019c6:	46bd      	mov	sp, r7
@@ -2397,16 +2622,23 @@ Disassembly of section .text:
 	...
 
 080019cc <HAL_TIM_PeriodElapsedCallback>:
+
+/* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
  80019cc:	b580      	push	{r7, lr}
  80019ce:	b082      	sub	sp, #8
  80019d0:	af00      	add	r7, sp, #0
  80019d2:	6078      	str	r0, [r7, #4]
+  if(htim->Instance == htim2.Instance)
  80019d4:	687b      	ldr	r3, [r7, #4]
  80019d6:	681a      	ldr	r2, [r3, #0]
  80019d8:	4b19      	ldr	r3, [pc, #100]	; (8001a40 <HAL_TIM_PeriodElapsedCallback+0x74>)
  80019da:	681b      	ldr	r3, [r3, #0]
  80019dc:	429a      	cmp	r2, r3
  80019de:	d128      	bne.n	8001a32 <HAL_TIM_PeriodElapsedCallback+0x66>
+  {
+    switch(tProcess)
  80019e0:	4b18      	ldr	r3, [pc, #96]	; (8001a44 <HAL_TIM_PeriodElapsedCallback+0x78>)
  80019e2:	781b      	ldrb	r3, [r3, #0]
  80019e4:	3b01      	subs	r3, #1
@@ -2423,22 +2655,51 @@ Disassembly of section .text:
  8001a08:	08001a2d 	.word	0x08001a2d
  8001a0c:	08001a37 	.word	0x08001a37
  8001a10:	08001a37 	.word	0x08001a37
+      case SPID:
+        break;
+      case CTUN_RES:
+        break;
+      case CTUN:
+        if(g_nIndex <= 200)
  8001a14:	4b0c      	ldr	r3, [pc, #48]	; (8001a48 <HAL_TIM_PeriodElapsedCallback+0x7c>)
  8001a16:	881b      	ldrh	r3, [r3, #0]
  8001a18:	2bc8      	cmp	r3, #200	; 0xc8
  8001a1a:	d803      	bhi.n	8001a24 <HAL_TIM_PeriodElapsedCallback+0x58>
+        {
+          MotorTuning(25);
  8001a1c:	2019      	movs	r0, #25
  8001a1e:	f000 fa77 	bl	8001f10 <MotorTuning>
+        }
+        else
+        {
+          tProcess = NONE;
+        }
+        break;
  8001a22:	e009      	b.n	8001a38 <HAL_TIM_PeriodElapsedCallback+0x6c>
+          tProcess = NONE;
  8001a24:	4b07      	ldr	r3, [pc, #28]	; (8001a44 <HAL_TIM_PeriodElapsedCallback+0x78>)
  8001a26:	2201      	movs	r2, #1
  8001a28:	701a      	strb	r2, [r3, #0]
+        break;
  8001a2a:	e005      	b.n	8001a38 <HAL_TIM_PeriodElapsedCallback+0x6c>
+      case CSET:
+        break;
+	  case CRUN_RES:
+		break;
+      case CRUN:
+        MotorMovePos();
  8001a2c:	f000 f8e4 	bl	8001bf8 <MotorMovePos>
+        break;
  8001a30:	e002      	b.n	8001a38 <HAL_TIM_PeriodElapsedCallback+0x6c>
+      case GRMS:
+		break;
+    }
+  }
  8001a32:	bf00      	nop
  8001a34:	e000      	b.n	8001a38 <HAL_TIM_PeriodElapsedCallback+0x6c>
+        break;
  8001a36:	bf00      	nop
+}
  8001a38:	bf00      	nop
  8001a3a:	3708      	adds	r7, #8
  8001a3c:	46bd      	mov	sp, r7
@@ -2448,10 +2709,27 @@ Disassembly of section .text:
  8001a48:	20000a64 	.word	0x20000a64
 
 08001a4c <Error_Handler>:
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
  8001a4c:	b480      	push	{r7}
  8001a4e:	af00      	add	r7, sp, #0
+  \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__STATIC_FORCEINLINE void __disable_irq(void)
+{
+  __ASM volatile ("cpsid i" : : : "memory");
  8001a50:	b672      	cpsid	i
+}
  8001a52:	bf00      	nop
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
  8001a54:	e7fe      	b.n	8001a54 <Error_Handler+0x8>
 	...
 

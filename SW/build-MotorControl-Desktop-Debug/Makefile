@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = MotorControl1.0.0
-DISTDIR = /home/vienchau/Desktop/Project/QtProject/MotorControl/build-MotorControl-Desktop-Debug/.tmp/MotorControl1.0.0
+DISTDIR = /home/vienchau/Desktop/Project/MOTOR_COTROL/MOTOR_CONTROL/SW/build-MotorControl-Desktop-Debug/.tmp/MotorControl1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/vienchau/anaconda3/lib
 LIBS          = $(SUBLIBS) -L/home/vienchau/anaconda3/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -213,7 +213,6 @@ DIST          = /home/vienchau/anaconda3/mkspecs/features/spec_pre.prf \
 		/home/vienchau/anaconda3/mkspecs/features/qt_config.prf \
 		/home/vienchau/anaconda3/mkspecs/linux-g++/qmake.conf \
 		/home/vienchau/anaconda3/mkspecs/features/spec_post.prf \
-		../MotorControl/.qmake.stash \
 		/home/vienchau/anaconda3/mkspecs/features/exclusive_builds.prf \
 		/home/vienchau/anaconda3/mkspecs/features/toolchain.prf \
 		/home/vienchau/anaconda3/mkspecs/features/default_pre.prf \
@@ -404,7 +403,6 @@ Makefile: ../MotorControl/MotorControl.pro /home/vienchau/anaconda3/mkspecs/linu
 		/home/vienchau/anaconda3/mkspecs/features/qt_config.prf \
 		/home/vienchau/anaconda3/mkspecs/linux-g++/qmake.conf \
 		/home/vienchau/anaconda3/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/home/vienchau/anaconda3/mkspecs/features/exclusive_builds.prf \
 		/home/vienchau/anaconda3/mkspecs/features/toolchain.prf \
 		/home/vienchau/anaconda3/mkspecs/features/default_pre.prf \
@@ -587,7 +585,6 @@ Makefile: ../MotorControl/MotorControl.pro /home/vienchau/anaconda3/mkspecs/linu
 /home/vienchau/anaconda3/mkspecs/features/qt_config.prf:
 /home/vienchau/anaconda3/mkspecs/linux-g++/qmake.conf:
 /home/vienchau/anaconda3/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /home/vienchau/anaconda3/mkspecs/features/exclusive_builds.prf:
 /home/vienchau/anaconda3/mkspecs/features/toolchain.prf:
 /home/vienchau/anaconda3/mkspecs/features/default_pre.prf:
@@ -628,7 +625,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents /home/vienchau/anaconda3/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../MotorControl/mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../MotorControl/main.cpp ../MotorControl/mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents /media/vienchau/DATA/MY_WORK/Qt/Project/MOTORCONTROL/MOTOR_CONTROL_SW/mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../MotorControl/mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -769,16 +766,16 @@ moc_mainwindow.cpp: /home/vienchau/anaconda3/include/qt/QtWidgets/QMainWindow \
 		../MotorControl/mainwindow.h \
 		moc_predefs.h \
 		/home/vienchau/anaconda3/bin/moc
-	/home/vienchau/anaconda3/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/vienchau/anaconda3/mkspecs/linux-g++ -I/home/vienchau/Desktop/Project/QtProject/MotorControl/MotorControl -I/home/vienchau/anaconda3/include/qt -I/home/vienchau/anaconda3/include/qt/QtWidgets -I/home/vienchau/anaconda3/include/qt/QtGui -I/home/vienchau/anaconda3/include/qt/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../MotorControl/mainwindow.h -o moc_mainwindow.cpp
+	/home/vienchau/anaconda3/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/vienchau/anaconda3/mkspecs/linux-g++ -I/home/vienchau/Desktop/Project/MOTOR_COTROL/MOTOR_CONTROL/SW/MotorControl -I/home/vienchau/anaconda3/include/qt -I/home/vienchau/anaconda3/include/qt/QtWidgets -I/home/vienchau/anaconda3/include/qt/QtGui -I/home/vienchau/anaconda3/include/qt/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../MotorControl/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
-ui_mainwindow.h: /media/vienchau/DATA/MY_WORK/Qt/Project/MOTORCONTROL/MOTOR_CONTROL_SW/mainwindow.ui \
+ui_mainwindow.h: ../MotorControl/mainwindow.ui \
 		/home/vienchau/anaconda3/bin/uic
-	/home/vienchau/anaconda3/bin/uic /media/vienchau/DATA/MY_WORK/Qt/Project/MOTORCONTROL/MOTOR_CONTROL_SW/mainwindow.ui -o ui_mainwindow.h
+	/home/vienchau/anaconda3/bin/uic ../MotorControl/mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -1007,43 +1004,7 @@ mainwindow.o: ../MotorControl/mainwindow.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtGui/qtouchdevice.h \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/qtabwidget.h \
 		/home/vienchau/anaconda3/include/qt/QtGui/qicon.h \
-		ui_mainwindow.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/QVariant \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QAction \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qaction.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qactiongroup.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QApplication \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qapplication.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/qcoreapplication.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/qeventloop.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qdesktopwidget.h \
-		/home/vienchau/anaconda3/include/qt/QtGui/qguiapplication.h \
-		/home/vienchau/anaconda3/include/qt/QtGui/qinputmethod.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QButtonGroup \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qbuttongroup.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QHeaderView \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qheaderview.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qabstractitemview.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qabstractscrollarea.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qframe.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/qabstractitemmodel.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/qitemselectionmodel.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qabstractitemdelegate.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qstyleoption.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qabstractspinbox.h \
-		/home/vienchau/anaconda3/include/qt/QtGui/qvalidator.h \
-		/home/vienchau/anaconda3/include/qt/QtCore/qregularexpression.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qslider.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qabstractslider.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qstyle.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qtabbar.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qrubberband.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QMenuBar \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qmenubar.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qmenu.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QStatusBar \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/qstatusbar.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QWidget
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../MotorControl/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
