@@ -1,0 +1,10 @@
+22:34:25 **** Incremental Build of configuration Debug for project MotorControlF407 ****
+make -j8 all 
+arm-none-eabi-size   MotorControlF407.elf 
+   text	   data	    bss	    dec	    hex	filename
+  29804	    132	   4428	  34364	   863c	MotorControlF407.elf
+Finished building: default.size.stdout
+ 
+
+22:34:25 Build Finished. 0 errors, 0 warnings. (took 477ms)
+
