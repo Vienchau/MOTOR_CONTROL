@@ -173,21 +173,21 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_7">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="sendpidButton">
         <property name="text">
          <string>SEND</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="tunningButton">
         <property name="text">
          <string>TUNING</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="requestButton">
         <property name="text">
          <string>REQUEST</string>
         </property>
@@ -232,14 +232,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QPushButton" name="motionPushButton">
+        <widget class="QPushButton" name="motionButton">
          <property name="text">
           <string>MOTION</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="runPushButton">
+        <widget class="QPushButton" name="runButton">
          <property name="text">
           <string>RUN</string>
          </property>
@@ -250,14 +250,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QPushButton" name="senparamsPushButton">
+        <widget class="QPushButton" name="senparamsButton">
          <property name="text">
           <string>SEND PARAMS</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="getPushButton">
+        <widget class="QPushButton" name="getButton">
          <property name="text">
           <string>GET</string>
          </property>
@@ -273,7 +273,7 @@
       <x>880</x>
       <y>10</y>
       <width>191</width>
-      <height>251</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="title">
@@ -285,7 +285,7 @@
        <x>10</x>
        <y>20</y>
        <width>163</width>
-       <height>221</height>
+       <height>191</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -352,7 +352,7 @@
     <property name="geometry">
      <rect>
       <x>880</x>
-      <y>260</y>
+      <y>290</y>
       <width>191</width>
       <height>111</height>
      </rect>
@@ -431,7 +431,7 @@
     <property name="geometry">
      <rect>
       <x>900</x>
-      <y>390</y>
+      <y>410</y>
       <width>151</width>
       <height>141</height>
      </rect>
@@ -441,6 +441,19 @@
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="openButton">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>240</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OPEN</string>
     </property>
    </widget>
   </widget>

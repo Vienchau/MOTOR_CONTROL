@@ -60,19 +60,19 @@ public:
     QLineEdit *lineEdit_3;
     QWidget *layoutWidget_3;
     QVBoxLayout *verticalLayout_7;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
+    QPushButton *sendpidButton;
+    QPushButton *tunningButton;
+    QPushButton *requestButton;
     QGroupBox *groupBox_2;
     QWidget *pidPlotWidget;
     QWidget *layoutWidget_4;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout_3;
-    QPushButton *motionPushButton;
-    QPushButton *runPushButton;
+    QPushButton *motionButton;
+    QPushButton *runButton;
     QVBoxLayout *verticalLayout_4;
-    QPushButton *senparamsPushButton;
-    QPushButton *getPushButton;
+    QPushButton *senparamsButton;
+    QPushButton *getButton;
     QGroupBox *groupBox_5;
     QWidget *layoutWidget_5;
     QVBoxLayout *verticalLayout_8;
@@ -96,6 +96,7 @@ public:
     QWidget *velPlotWidget;
     QWidget *accPlotWidget;
     QLabel *label_11;
+    QPushButton *openButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -216,20 +217,20 @@ public:
         verticalLayout_7 = new QVBoxLayout(layoutWidget_3);
         verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
         verticalLayout_7->setContentsMargins(0, 0, 0, 0);
-        pushButton = new QPushButton(layoutWidget_3);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        sendpidButton = new QPushButton(layoutWidget_3);
+        sendpidButton->setObjectName(QStringLiteral("sendpidButton"));
 
-        verticalLayout_7->addWidget(pushButton);
+        verticalLayout_7->addWidget(sendpidButton);
 
-        pushButton_2 = new QPushButton(layoutWidget_3);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        tunningButton = new QPushButton(layoutWidget_3);
+        tunningButton->setObjectName(QStringLiteral("tunningButton"));
 
-        verticalLayout_7->addWidget(pushButton_2);
+        verticalLayout_7->addWidget(tunningButton);
 
-        pushButton_3 = new QPushButton(layoutWidget_3);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        requestButton = new QPushButton(layoutWidget_3);
+        requestButton->setObjectName(QStringLiteral("requestButton"));
 
-        verticalLayout_7->addWidget(pushButton_3);
+        verticalLayout_7->addWidget(requestButton);
 
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
@@ -245,40 +246,40 @@ public:
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        motionPushButton = new QPushButton(layoutWidget_4);
-        motionPushButton->setObjectName(QStringLiteral("motionPushButton"));
+        motionButton = new QPushButton(layoutWidget_4);
+        motionButton->setObjectName(QStringLiteral("motionButton"));
 
-        verticalLayout_3->addWidget(motionPushButton);
+        verticalLayout_3->addWidget(motionButton);
 
-        runPushButton = new QPushButton(layoutWidget_4);
-        runPushButton->setObjectName(QStringLiteral("runPushButton"));
+        runButton = new QPushButton(layoutWidget_4);
+        runButton->setObjectName(QStringLiteral("runButton"));
 
-        verticalLayout_3->addWidget(runPushButton);
+        verticalLayout_3->addWidget(runButton);
 
 
         horizontalLayout_2->addLayout(verticalLayout_3);
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        senparamsPushButton = new QPushButton(layoutWidget_4);
-        senparamsPushButton->setObjectName(QStringLiteral("senparamsPushButton"));
+        senparamsButton = new QPushButton(layoutWidget_4);
+        senparamsButton->setObjectName(QStringLiteral("senparamsButton"));
 
-        verticalLayout_4->addWidget(senparamsPushButton);
+        verticalLayout_4->addWidget(senparamsButton);
 
-        getPushButton = new QPushButton(layoutWidget_4);
-        getPushButton->setObjectName(QStringLiteral("getPushButton"));
+        getButton = new QPushButton(layoutWidget_4);
+        getButton->setObjectName(QStringLiteral("getButton"));
 
-        verticalLayout_4->addWidget(getPushButton);
+        verticalLayout_4->addWidget(getButton);
 
 
         horizontalLayout_2->addLayout(verticalLayout_4);
 
         groupBox_5 = new QGroupBox(centralwidget);
         groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
-        groupBox_5->setGeometry(QRect(880, 10, 191, 251));
+        groupBox_5->setGeometry(QRect(880, 10, 191, 221));
         layoutWidget_5 = new QWidget(groupBox_5);
         layoutWidget_5->setObjectName(QStringLiteral("layoutWidget_5"));
-        layoutWidget_5->setGeometry(QRect(10, 20, 163, 221));
+        layoutWidget_5->setGeometry(QRect(10, 20, 163, 191));
         verticalLayout_8 = new QVBoxLayout(layoutWidget_5);
         verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
         verticalLayout_8->setContentsMargins(0, 0, 0, 0);
@@ -344,7 +345,7 @@ public:
 
         groupBox_6 = new QGroupBox(centralwidget);
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
-        groupBox_6->setGeometry(QRect(880, 260, 191, 111));
+        groupBox_6->setGeometry(QRect(880, 290, 191, 111));
         sendButton = new QPushButton(groupBox_6);
         sendButton->setObjectName(QStringLiteral("sendButton"));
         sendButton->setGeometry(QRect(10, 70, 171, 31));
@@ -365,9 +366,12 @@ public:
         accPlotWidget->setGeometry(QRect(10, 380, 271, 161));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(900, 390, 151, 141));
+        label_11->setGeometry(QRect(900, 410, 151, 141));
         label_11->setPixmap(QPixmap(QString::fromUtf8("../../../../../../../../media/vienchau/DATA/MY_WORK/Qt/Project/PhCode/PhCode/BK.png")));
         label_11->setScaledContents(true);
+        openButton = new QPushButton(centralwidget);
+        openButton->setObjectName(QStringLiteral("openButton"));
+        openButton->setGeometry(QRect(890, 240, 181, 31));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -394,14 +398,14 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Kp", Q_NULLPTR));
         label_5->setText(QApplication::translate("MainWindow", "Ki", Q_NULLPTR));
         label_6->setText(QApplication::translate("MainWindow", "Kd", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("MainWindow", "SEND", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("MainWindow", "TUNING", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("MainWindow", "REQUEST", Q_NULLPTR));
+        sendpidButton->setText(QApplication::translate("MainWindow", "SEND", Q_NULLPTR));
+        tunningButton->setText(QApplication::translate("MainWindow", "TUNING", Q_NULLPTR));
+        requestButton->setText(QApplication::translate("MainWindow", "REQUEST", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "PID Tunning Graph", Q_NULLPTR));
-        motionPushButton->setText(QApplication::translate("MainWindow", "MOTION", Q_NULLPTR));
-        runPushButton->setText(QApplication::translate("MainWindow", "RUN", Q_NULLPTR));
-        senparamsPushButton->setText(QApplication::translate("MainWindow", "SEND PARAMS", Q_NULLPTR));
-        getPushButton->setText(QApplication::translate("MainWindow", "GET", Q_NULLPTR));
+        motionButton->setText(QApplication::translate("MainWindow", "MOTION", Q_NULLPTR));
+        runButton->setText(QApplication::translate("MainWindow", "RUN", Q_NULLPTR));
+        senparamsButton->setText(QApplication::translate("MainWindow", "SEND PARAMS", Q_NULLPTR));
+        getButton->setText(QApplication::translate("MainWindow", "GET", Q_NULLPTR));
         groupBox_5->setTitle(QApplication::translate("MainWindow", "Serial Port", Q_NULLPTR));
         label_7->setText(QApplication::translate("MainWindow", "COM", Q_NULLPTR));
         label_8->setText(QApplication::translate("MainWindow", "BaudRate", Q_NULLPTR));
@@ -410,6 +414,7 @@ public:
         groupBox_6->setTitle(QApplication::translate("MainWindow", "Send Data", Q_NULLPTR));
         sendButton->setText(QApplication::translate("MainWindow", "Send", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("MainWindow", "Control Graph", Q_NULLPTR));
+        openButton->setText(QApplication::translate("MainWindow", "OPEN", Q_NULLPTR));
     } // retranslateUi
 
 };

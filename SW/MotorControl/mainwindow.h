@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "qcustomplot.h"
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QTimer>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -11,9 +16,40 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+private slots:
+    void serialport_read();
+
+
+    void on_openButton_clicked();
+
+    void on_sendButton_clicked();
+
+    void on_sendpidButton_clicked();
+
+    void on_tunningButton_clicked();
+
+    void on_requestButton_clicked();
+
+    void on_motionButton_clicked();
+
+    void on_runButton_clicked();
+
+    void on_senparamsButton_clicked();
+
+    void on_getButton_clicked();
+
+    void serialReadyRead();
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private:
+    void updateSerialPort();
+    QSerialPort *mSerial;
+    QList <QSerialPortInfo> mSerialPorts;
+    QTimer *mSerialScanTimer;
+    QSharedPointer<QCPGraphDataContainer> mData;
 
 private:
     Ui::MainWindow *ui;
