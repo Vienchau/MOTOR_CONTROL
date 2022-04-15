@@ -208,7 +208,7 @@
     <property name="title">
      <string>PID Tunning Graph</string>
     </property>
-    <widget class="QWidget" name="pidPlotWidget" native="true">
+    <widget class="QCustomPlot" name="pidPlot" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -373,7 +373,7 @@
       <string>Send</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="textEdit_2">
+    <widget class="QLineEdit" name="sendEdit">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -396,7 +396,7 @@
     <property name="title">
      <string>Control Graph</string>
     </property>
-    <widget class="QWidget" name="posPlotWidget" native="true">
+    <widget class="QCustomPlot" name="posPlot" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -406,7 +406,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="velPlotWidget" native="true">
+    <widget class="QCustomPlot" name="velPlot" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -416,7 +416,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="accPlotWidget" native="true">
+    <widget class="QCustomPlot" name="accPlot" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -463,12 +463,20 @@
      <x>0</x>
      <y>0</y>
      <width>1083</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

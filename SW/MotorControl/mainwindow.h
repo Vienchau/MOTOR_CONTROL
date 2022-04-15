@@ -38,7 +38,6 @@ private slots:
 
     void on_getButton_clicked();
 
-    void serialReadyRead();
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -46,10 +45,14 @@ public:
 
 private:
     void updateSerialPort();
+    void plotConfig();
     QSerialPort *mSerial;
     QList <QSerialPortInfo> mSerialPorts;
     QTimer *mSerialScanTimer;
-    QSharedPointer<QCPGraphDataContainer> mData;
+    QSharedPointer<QCPGraphDataContainer> mDatapid;
+    QSharedPointer<QCPGraphDataContainer> mDatapos;
+    QSharedPointer<QCPGraphDataContainer> mDatavel;
+    QSharedPointer<QCPGraphDataContainer> mDataacc;
 
 private:
     Ui::MainWindow *ui;

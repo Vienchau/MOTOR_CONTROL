@@ -24,9 +24,9 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -64,7 +64,7 @@ public:
     QPushButton *tunningButton;
     QPushButton *requestButton;
     QGroupBox *groupBox_2;
-    QWidget *pidPlotWidget;
+    QCustomPlot *pidPlot;
     QWidget *layoutWidget_4;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout_3;
@@ -90,11 +90,11 @@ public:
     QComboBox *parityComboBox;
     QGroupBox *groupBox_6;
     QPushButton *sendButton;
-    QTextEdit *textEdit_2;
+    QLineEdit *sendEdit;
     QGroupBox *groupBox;
-    QWidget *posPlotWidget;
-    QWidget *velPlotWidget;
-    QWidget *accPlotWidget;
+    QCustomPlot *posPlot;
+    QCustomPlot *velPlot;
+    QCustomPlot *accPlot;
     QLabel *label_11;
     QPushButton *openButton;
     QMenuBar *menubar;
@@ -235,9 +235,9 @@ public:
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(10, 280, 561, 281));
-        pidPlotWidget = new QWidget(groupBox_2);
-        pidPlotWidget->setObjectName(QStringLiteral("pidPlotWidget"));
-        pidPlotWidget->setGeometry(QRect(10, 30, 541, 241));
+        pidPlot = new QCustomPlot(groupBox_2);
+        pidPlot->setObjectName(QStringLiteral("pidPlot"));
+        pidPlot->setGeometry(QRect(10, 30, 541, 241));
         layoutWidget_4 = new QWidget(centralwidget);
         layoutWidget_4->setObjectName(QStringLiteral("layoutWidget_4"));
         layoutWidget_4->setGeometry(QRect(360, 190, 211, 81));
@@ -349,21 +349,21 @@ public:
         sendButton = new QPushButton(groupBox_6);
         sendButton->setObjectName(QStringLiteral("sendButton"));
         sendButton->setGeometry(QRect(10, 70, 171, 31));
-        textEdit_2 = new QTextEdit(groupBox_6);
-        textEdit_2->setObjectName(QStringLiteral("textEdit_2"));
-        textEdit_2->setGeometry(QRect(10, 30, 171, 31));
+        sendEdit = new QLineEdit(groupBox_6);
+        sendEdit->setObjectName(QStringLiteral("sendEdit"));
+        sendEdit->setGeometry(QRect(10, 30, 171, 31));
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setGeometry(QRect(580, 10, 291, 551));
-        posPlotWidget = new QWidget(groupBox);
-        posPlotWidget->setObjectName(QStringLiteral("posPlotWidget"));
-        posPlotWidget->setGeometry(QRect(10, 20, 271, 161));
-        velPlotWidget = new QWidget(groupBox);
-        velPlotWidget->setObjectName(QStringLiteral("velPlotWidget"));
-        velPlotWidget->setGeometry(QRect(10, 200, 271, 161));
-        accPlotWidget = new QWidget(groupBox);
-        accPlotWidget->setObjectName(QStringLiteral("accPlotWidget"));
-        accPlotWidget->setGeometry(QRect(10, 380, 271, 161));
+        posPlot = new QCustomPlot(groupBox);
+        posPlot->setObjectName(QStringLiteral("posPlot"));
+        posPlot->setGeometry(QRect(10, 20, 271, 161));
+        velPlot = new QCustomPlot(groupBox);
+        velPlot->setObjectName(QStringLiteral("velPlot"));
+        velPlot->setGeometry(QRect(10, 200, 271, 161));
+        accPlot = new QCustomPlot(groupBox);
+        accPlot->setObjectName(QStringLiteral("accPlot"));
+        accPlot->setGeometry(QRect(10, 380, 271, 161));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QStringLiteral("label_11"));
         label_11->setGeometry(QRect(900, 410, 151, 141));
@@ -375,7 +375,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1083, 20));
+        menubar->setGeometry(QRect(0, 0, 1083, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));

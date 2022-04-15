@@ -1165,6 +1165,11 @@ moc_mainwindow.cpp: /home/vienchau/anaconda3/include/qt/QtWidgets/QMainWindow \
 		/home/vienchau/anaconda3/include/qt/QtPrintSupport/qtprintsupportversion.h \
 		/home/vienchau/anaconda3/include/qt/QtCore/QElapsedTimer \
 		/home/vienchau/anaconda3/include/qt/QtCore/QTimeZone \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPort \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialport.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
 		../MotorControl/mainwindow.h \
 		moc_predefs.h \
 		/home/vienchau/anaconda3/bin/moc
@@ -2177,6 +2182,11 @@ main.o: ../MotorControl/main.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtPrintSupport/qtprintsupportversion.h \
 		/home/vienchau/anaconda3/include/qt/QtCore/QElapsedTimer \
 		/home/vienchau/anaconda3/include/qt/QtCore/QTimeZone \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPort \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialport.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/QApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../MotorControl/main.cpp
 
@@ -2673,22 +2683,12 @@ mainwindow.o: ../MotorControl/mainwindow.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtPrintSupport/qtprintsupportversion.h \
 		/home/vienchau/anaconda3/include/qt/QtCore/QElapsedTimer \
 		/home/vienchau/anaconda3/include/qt/QtCore/QTimeZone \
-		ui_mainwindow.h \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QAction \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QApplication \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QButtonGroup \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QComboBox \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QGroupBox \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QHBoxLayout \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QHeaderView \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QLabel \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QLineEdit \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QMenuBar \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QPushButton \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QStatusBar \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QTextBrowser \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QTextEdit \
-		/home/vienchau/anaconda3/include/qt/QtWidgets/QVBoxLayout
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPort \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialport.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
+		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../MotorControl/mainwindow.cpp
 
 qcustomplot.o: ../MotorControl/qcustomplot.cpp ../MotorControl/qcustomplot.h \
