@@ -55,9 +55,9 @@ public:
     QLabel *label_5;
     QLabel *label_6;
     QVBoxLayout *verticalLayout_5;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit_3;
+    QLineEdit *kpEdit;
+    QLineEdit *kiEdit;
+    QLineEdit *kdEdit;
     QWidget *layoutWidget_3;
     QVBoxLayout *verticalLayout_7;
     QPushButton *sendpidButton;
@@ -193,20 +193,20 @@ public:
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        lineEdit = new QLineEdit(layoutWidget_2);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        kpEdit = new QLineEdit(layoutWidget_2);
+        kpEdit->setObjectName(QStringLiteral("kpEdit"));
 
-        verticalLayout_5->addWidget(lineEdit);
+        verticalLayout_5->addWidget(kpEdit);
 
-        lineEdit_2 = new QLineEdit(layoutWidget_2);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        kiEdit = new QLineEdit(layoutWidget_2);
+        kiEdit->setObjectName(QStringLiteral("kiEdit"));
 
-        verticalLayout_5->addWidget(lineEdit_2);
+        verticalLayout_5->addWidget(kiEdit);
 
-        lineEdit_3 = new QLineEdit(layoutWidget_2);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
+        kdEdit = new QLineEdit(layoutWidget_2);
+        kdEdit->setObjectName(QStringLiteral("kdEdit"));
 
-        verticalLayout_5->addWidget(lineEdit_3);
+        verticalLayout_5->addWidget(kdEdit);
 
 
         horizontalLayout_3->addLayout(verticalLayout_5);
@@ -375,7 +375,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1083, 22));
+        menubar->setGeometry(QRect(0, 0, 1083, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));

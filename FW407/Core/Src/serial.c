@@ -60,7 +60,7 @@ void SerialInit(void)
     HAL_UART_Receive_IT(&huart1, (uint8_t *)g_nRxBuff, MAX_LEN);
 }
 
-//recieve data
+//receive data
 void SerialAcceptReceive(void)
 {
 	HAL_UART_Receive_IT(&huart1, (uint8_t*)g_nRxBuff, MAX_LEN);
@@ -96,9 +96,9 @@ void SerialParse(uint8_t *pBuff)
 {
     if((pBuff[0] == STX[0] && (pBuff[17] == ETX[0])))
   {
-    memcpy(g_strCommand, subString(pBuff, 1,4), 4);
-    memcpy(g_nOption, subString(pBuff, 5,3), 3);
-    memcpy(g_nData, subString(pBuff, 8,8), 8);
+    memcpy(g_strCommand, subString(g_nRxBuff, 1,4), 4);
+    memcpy(g_nOption, subString(g_nRxBuff, 5,3), 3);
+    memcpy(g_nData, subString(g_nRxBuff, 8,8), 8);
   }
 }
 

@@ -150,13 +150,13 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="kpEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="kiEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_3"/>
+         <widget class="QLineEdit" name="kdEdit"/>
         </item>
        </layout>
       </item>
@@ -463,7 +463,7 @@
      <x>0</x>
      <y>0</y>
      <width>1083</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

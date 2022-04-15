@@ -34,6 +34,6 @@ extern uint8_t *subString(uint8_t *pBuff, int Pos, int nIndex);
 extern bool StrCompare(uint8_t *pBuff, uint8_t *PSample, uint8_t nSize);
 extern void SerialWriteComm(uint8_t *pStrCmd, uint8_t *pOpt, uint8_t *pData);
 extern void SerialParse(uint8_t *pBuff);
-extern void SerialAcceptRecieve(void);
+extern void SerialAcceptReceive(void);
 
 #endif /* INC_SERIAL_H_ */

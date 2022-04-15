@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
         plotConfig();
 
         connect(mSerialScanTimer, &QTimer::timeout, this, &MainWindow::updateSerialPort);
-        connect(ui->lineEdit, &QLineEdit::returnPressed,this, &MainWindow::on_sendButton_clicked);
+
         connect(mSerial, &QSerialPort::readyRead, this, &MainWindow::serialport_read);
 }
 
@@ -225,6 +225,28 @@ void MainWindow::serialport_read()
 
 void MainWindow::on_sendpidButton_clicked()
 {
+            QString kp = ui ->kpEdit->text();
+            QString ki = ui ->kiEdit->text();
+            QString kd = ui ->kdEdit->text();
+
+            //convert PID
+
+            //QByteArray str("02 53 50 49 44 00 00 00");
+            //QString str_temp = (QString)str;
+            //str_temp.append(" " + kp);
+            //str_temp.append(" " + ki);
+            //str_temp.append(" " + kd);
+            //str_temp.append(" 00 00 16 03");
+            //QByteArray str2 = str_temp.toUtf8();
+            QByteArray str("02 53 50 49 44 00 00 00 00 00 00 00 00 01 00 00 16 03");
+            QByteArray t = str.replace(" ", "");
+            QByteArray bytes = QByteArray::fromHex(t);
+            mSerial->write(bytes);
+            if(mSerial -> isWritable())
+                    {
+                QString text = "Send succeed \n";
+                ui->textBrowser->insertPlainText(text);
+                    }
 
 }
 
