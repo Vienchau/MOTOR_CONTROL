@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qcustomplot.h"
 
@@ -166,7 +166,7 @@ void MainWindow::on_openButton_clicked()
             ui -> senparamsButton -> setEnabled(true);
             ui -> getButton -> setEnabled(true);
             ui -> sendButton -> setEnabled(true);
-            ui-> openButton ->setEnabled(true);
+            ui-> openButton ->setEnabled    (true);
 }
 
 void MainWindow::on_sendButton_clicked()
@@ -233,10 +233,10 @@ void MainWindow::on_sendpidButton_clicked()
 
             //QByteArray str("02 53 50 49 44 00 00 00");
             //QString str_temp = (QString)str;
-            //str_temp.append(" " + kp);
+            //s//tr_temp.append(" " + kp);
             //str_temp.append(" " + ki);
             //str_temp.append(" " + kd);
-            //str_temp.append(" 00 00 16 03");
+            ///str_temp.append(" 00 00 16 03");
             //QByteArray str2 = str_temp.toUtf8();
             QByteArray str("02 53 50 49 44 00 00 00 00 00 00 00 00 01 00 00 16 03");
             QByteArray t = str.replace(" ", "");
