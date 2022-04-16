@@ -6,6 +6,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
+#include <cstring>
 
 
 QT_BEGIN_NAMESPACE
@@ -46,6 +47,7 @@ public:
 private:
     void updateSerialPort();
     void plotConfig();
+
     QSerialPort *mSerial;
     QList <QSerialPortInfo> mSerialPorts;
     QTimer *mSerialScanTimer;

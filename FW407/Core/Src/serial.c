@@ -62,8 +62,7 @@ void SerialInit(void)
 
 //receive data
 void SerialAcceptReceive(void)
-{
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)g_nRxBuff, MAX_LEN);
+{	HAL_UART_Receive_IT(&huart1, (uint8_t*)g_nRxBuff, MAX_LEN);
 }
 
 //send data to GUI

@@ -432,12 +432,12 @@
      <rect>
       <x>900</x>
       <y>410</y>
-      <width>151</width>
+      <width>161</width>
       <height>141</height>
      </rect>
     </property>
     <property name="pixmap">
-     <pixmap>../../../../../../../../media/vienchau/DATA/MY_WORK/Qt/Project/PhCode/PhCode/BK.png</pixmap>
+     <pixmap>../../../../../../../../media/vienchau/DATA/MY_WORK/tai_lieu/logo/Logo BK.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -463,7 +463,7 @@
      <x>0</x>
      <y>0</y>
      <width>1083</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

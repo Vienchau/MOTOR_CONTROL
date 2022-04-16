@@ -3397,10 +3397,9 @@ void SerialInit(void)
 
 //receive data
 void SerialAcceptReceive(void)
-{
+{	HAL_UART_Receive_IT(&huart1, (uint8_t*)g_nRxBuff, MAX_LEN);
  8001f94:	b580      	push	{r7, lr}
  8001f96:	af00      	add	r7, sp, #0
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)g_nRxBuff, MAX_LEN);
  8001f98:	2212      	movs	r2, #18
  8001f9a:	4903      	ldr	r1, [pc, #12]	; (8001fa8 <SerialAcceptReceive+0x14>)
  8001f9c:	4803      	ldr	r0, [pc, #12]	; (8001fac <SerialAcceptReceive+0x18>)

@@ -1,8 +1,10 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qcustomplot.h"
-
-
+#include <QDebug>
+#include <sstream>
+#include <iostream>
+#include <boost/format.hpp>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -46,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
 
         plotConfig();
 
-        connect(mSerialScanTimer, &QTimer::timeout, this, &MainWindow::updateSerialPort);
+        //connect(mSerialScanTimer, &QTimer::timeout, this, &MainWindow::updateSerialPort);
 
         connect(mSerial, &QSerialPort::readyRead, this, &MainWindow::serialport_read);
 }
@@ -134,6 +136,9 @@ void MainWindow::plotConfig()
         ui->accPlot->graph()->setData(mDataacc);
         ui->accPlot->graph()->setName("Accelometer");
 }
+
+
+
 
 
 void MainWindow::on_openButton_clicked()
@@ -225,29 +230,68 @@ void MainWindow::serialport_read()
 
 void MainWindow::on_sendpidButton_clicked()
 {
+            QString temp;
+            std::string result;
+            std::ostringstream sstream;
+            //reading params from Line Edit
             QString kp = ui ->kpEdit->text();
             QString ki = ui ->kiEdit->text();
             QString kd = ui ->kdEdit->text();
 
-            //convert PID
+            //Kp convert
+            QByteArray bKp;
+            QStringList  list1 = kp.split(".");
+            foreach (temp, list1)
+            {
+                result = (boost::format("%x") % temp.toInt()).str();
+                bKp.append(" " + QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+            }
+            qDebug() << bKp << "\n";
 
-            //QByteArray str("02 53 50 49 44 00 00 00");
-            //QString str_temp = (QString)str;
-            //s//tr_temp.append(" " + kp);
-            //str_temp.append(" " + ki);
-            //str_temp.append(" " + kd);
-            ///str_temp.append(" 00 00 16 03");
-            //QByteArray str2 = str_temp.toUtf8();
-            QByteArray str("02 53 50 49 44 00 00 00 00 00 00 00 00 01 00 00 16 03");
-            QByteArray t = str.replace(" ", "");
-            QByteArray bytes = QByteArray::fromHex(t);
+            //Ki convert
+            QByteArray bKi;
+            QStringList  list2 = ki.split(".");
+            foreach (temp, list2)
+            {
+                result = (boost::format("%x") % temp.toInt()).str();
+                bKi.append(" " +  QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+            }
+            qDebug() << bKi << "\n";
+
+            //Kd convert
+            QByteArray bKd;
+            QStringList  list3 = kd.split(".");
+            foreach (temp, list3)
+            {
+                result = (boost::format("%x") % temp.toInt()).str();
+                bKd.append(" " + QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+            }
+            qDebug() << bKd << "\n";
+
+
+            QByteArray bytes("02 53 50 49 44 00 00 00");
+            bytes = QByteArray::fromHex(bytes);
+
+            //merge params
+            QByteArray temp2;
+            temp2.append(bKp + bKi + bKd);
+            bytes.append(temp2);
+
+
+            //protocal last byte
+            QByteArray temp_byte("00 00 16 03");
+            temp_byte = QByteArray::fromHex(temp_byte);
+
+            //send pid parmas
+            bytes.append(temp_byte);
+            bytes.replace(" ", "");
+            qDebug() << bytes << "\n";
             mSerial->write(bytes);
             if(mSerial -> isWritable())
                     {
                 QString text = "Send succeed \n";
                 ui->textBrowser->insertPlainText(text);
                     }
-
 }
 
 void MainWindow::on_tunningButton_clicked()

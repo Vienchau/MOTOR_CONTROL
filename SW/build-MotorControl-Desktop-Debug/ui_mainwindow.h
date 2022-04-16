@@ -366,8 +366,8 @@ public:
         accPlot->setGeometry(QRect(10, 380, 271, 161));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(900, 410, 151, 141));
-        label_11->setPixmap(QPixmap(QString::fromUtf8("../../../../../../../../media/vienchau/DATA/MY_WORK/Qt/Project/PhCode/PhCode/BK.png")));
+        label_11->setGeometry(QRect(900, 410, 161, 141));
+        label_11->setPixmap(QPixmap(QString::fromUtf8("../../../../../../../../media/vienchau/DATA/MY_WORK/tai_lieu/logo/Logo BK.png")));
         label_11->setScaledContents(true);
         openButton = new QPushButton(centralwidget);
         openButton->setObjectName(QStringLiteral("openButton"));
@@ -375,7 +375,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1083, 20));
+        menubar->setGeometry(QRect(0, 0, 1083, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
