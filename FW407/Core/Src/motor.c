@@ -63,14 +63,14 @@ void MotorInit(void)
 
 uint16_t ConvertDegToPulse(uint16_t nDeg)
 {
-    float dPulse = nDeg * 4 * 11 * 21.3 / 360;
+    float dPulse = nDeg * 4 * 11 * 30 / 360;
 
     return (uint16_t) dPulse;
 }
 
 uint16_t ConvertPulseToDeg(uint16_t nPulse)
 {
-    float dDeg = nPulse * 360 / 4 / 11 / 21.3;
+    float dDeg = nPulse * 360 / 4 / 11 / 30;
     return (uint16_t) dDeg;
 }
 

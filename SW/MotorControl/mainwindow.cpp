@@ -287,6 +287,23 @@ void MainWindow::serialport_read()
 
                 qDebug() << "PID Pramas: " << QString::number(fKp) << " " << QString::number(fKi) << " " << QString::number(fKd) << "\n" ;
             }
+
+            if(temp == "CTUN\n")
+            {
+                QString text = "CTUN cmd completed \n";
+                ui -> textBrowser -> insertPlainText(text);
+            }
+
+            if(temp == "GPID\n")
+            {
+                /* 1. Data byte split (ref slide)
+                 * 2. count -> time (convert?)
+                 * 3. pos -> y
+                 * 4. graph(count, pos)
+                 * 5. pos command red line in grap?
+                 * */
+
+            }
         //clear data remain
            str.clear();
            temp.clear();
@@ -364,12 +381,18 @@ void MainWindow::on_sendpidButton_clicked()
 
 void MainWindow::on_tunningButton_clicked()
 {
-
+            QByteArray str("02 43 54 55 4E 00 00 00 00 00 00 00 00 00 00 00 16 03");
+            QByteArray t = str.replace(" ", "");
+            QByteArray bytes = QByteArray::fromHex(t);
+            mSerial->write(bytes);
 }
 
 void MainWindow::on_requestButton_clicked()
 {
-
+            QByteArray str("02 47 50 49 44 00 00 00 00 00 00 00 00 00 00 00 16 03");
+            QByteArray t = str.replace(" ", "");
+            QByteArray bytes = QByteArray::fromHex(t);
+            mSerial->write(bytes);
 }
 
 void MainWindow::on_motionButton_clicked()
