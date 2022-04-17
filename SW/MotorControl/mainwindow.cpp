@@ -21,17 +21,16 @@ MainWindow::MainWindow(QWidget *parent)
         ui->baudComboBox->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
         ui->baudComboBox->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
         ui->baudComboBox->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
+        ui->baudComboBox->setCurrentIndex(3);
 
         ui->sizeComboBox->addItem(QStringLiteral("5"), QSerialPort::Data5);
         ui->sizeComboBox->addItem(QStringLiteral("6"), QSerialPort::Data6);
         ui->sizeComboBox->addItem(QStringLiteral("7"), QSerialPort::Data7);
         ui->sizeComboBox->addItem(QStringLiteral("8"), QSerialPort::Data8);
-
-
+        ui->sizeComboBox->setCurrentIndex(3);
 
         QStringList parity = {"none"};
         ui -> parityComboBox -> addItems(parity);
-
 
         mSerialScanTimer = new QTimer(this);
         mSerialScanTimer->setInterval(5000);
@@ -67,6 +66,7 @@ void MainWindow::updateSerialPort()
             ui -> serialComboBox -> addItem(port.portName(),  port.systemLocation());
         }
 }
+
 
 void MainWindow::plotConfig()
 {
@@ -137,8 +137,53 @@ void MainWindow::plotConfig()
         ui->accPlot->graph()->setName("Accelometer");
 }
 
+void MainWindow::dataPIDProcessing(QByteArray &bdata, float *fKp, float *fKi, float *fKd)
+{
+    QByteArray bKRev;
+    bKRev.resize(2);
+    bKRev.clear();
 
 
+    bKRev.append(bdata[0]);
+    bKRev.append(bdata[1]);
+    bool bStatus;
+    uint iKpRev1 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    bKRev.append(bdata[2]);
+    bKRev.append(bdata[3]);
+    bStatus = false;
+    uint iKpRev2 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    bKRev.append(bdata[4]);
+    bKRev.append(bdata[5]);
+    bStatus = false;
+    uint iKiRev1 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    bKRev.append(bdata[6]);
+    bKRev.append(bdata[7]);
+    bStatus = false;
+    uint iKiRev2 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    bKRev.append(bdata[8]);
+    bKRev.append(bdata[9]);
+    bStatus = false;
+    uint iKdRev1 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    bKRev.append(bdata[10]);
+    bKRev.append(bdata[11]);
+    bStatus = false;
+    uint iKdRev2 = QString(bKRev).toUInt(&bStatus,16);
+    bKRev.clear();
+
+    *fKp = (float)iKpRev1 + (float)iKpRev2/100 ;
+    *fKi = (float)iKiRev1 + (float)iKiRev2/100;
+    *fKd = (float)iKdRev1 + (float)iKdRev2/100;
+}
 
 
 void MainWindow::on_openButton_clicked()
@@ -194,35 +239,58 @@ void MainWindow::serialport_read()
 {
     QString str;
        QString cmd = "Command recieved: ";
-       QString data = "Data recieved: ";
+       QString data = "Data recieved:\n";
        QThread::msleep(50);
        QByteArray data_rev = mSerial -> readAll();
+       qDebug() << "data raw: " << data_rev << "\n" ;
        if(data_rev.size() < 17)
        {
-           data_rev.clear();
+          data_rev.clear();
        }
        else
        {
            str = (QString(data_rev));
-               QString temp = str;
-               //command split
-               temp.chop(13);
-               ui -> textBrowser -> insertPlainText(cmd);
-               temp.append("\n");
-               ui -> textBrowser -> insertPlainText(temp);
-                //data split
-               //QString temp2 = QString::number(data_rev, 16);
+           QByteArray temp2 = data_rev;
 
-               QString temp2 = str;
-               temp2.chop(2);
-               temp2 = temp2.right(9);
-               ui -> textBrowser -> insertPlainText(data);
-               temp2.append("\n");
-               ui -> textBrowser -> insertPlainText(temp2);
-               //clear data remain
-               str.clear();
-               temp.clear();
-               data_rev.clear();
+           QString temp = str;
+           qDebug() << "Command: " << temp << "\n" ;
+
+               //command split
+           ui -> textBrowser -> insertPlainText(cmd);
+           temp.append("\n");
+           ui -> textBrowser -> insertPlainText(temp);
+
+            if(temp == "SPID\n")
+            {
+                ui -> textBrowser -> insertPlainText(data);
+                temp2.chop(2);
+                temp2 = temp2.right(8).toHex();
+
+
+                qDebug() << "Data temp2: " << temp2 << "\n" ;
+                QByteArray temp3;
+                temp3.append(temp2[0]);
+                temp3.append(temp2[1]);
+                qDebug() << "Data temp2: " << temp2[0] << " " << temp2[1] << "\n" ;
+                qDebug() << "Data temp3: " << temp3 << "\n" ;
+                float fKp, fKi, fKd;
+                dataPIDProcessing(temp2, &fKp, &fKi, &fKd);
+
+                QString text ="Kpset: " + QString::number(fKp) + "\n";
+                ui -> textBrowser -> insertPlainText(text);
+
+                text ="Kiset: " + QString::number(fKi) + "\n";
+                ui -> textBrowser -> insertPlainText(text);
+
+                text ="Kdset: " + QString::number(fKd) + "\n";
+                ui -> textBrowser -> insertPlainText(text);
+
+                qDebug() << "PID Pramas: " << QString::number(fKp) << " " << QString::number(fKi) << " " << QString::number(fKd) << "\n" ;
+            }
+        //clear data remain
+           str.clear();
+           temp.clear();
+           data_rev.clear();
        }
        QScrollBar *sb = ui->textBrowser->verticalScrollBar();
        sb->setValue(sb->maximum());

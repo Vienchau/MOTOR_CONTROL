@@ -47,6 +47,7 @@ public:
 private:
     void updateSerialPort();
     void plotConfig();
+    void dataPIDProcessing(QByteArray &bdata, float * fKp, float *fKi, float *fKd);
 
     QSerialPort *mSerial;
     QList <QSerialPortInfo> mSerialPorts;
