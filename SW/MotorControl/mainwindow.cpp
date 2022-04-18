@@ -37,8 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
         ui->sizeComboBox->addItem(QStringLiteral("8"), QSerialPort::Data8);
         ui->sizeComboBox->setCurrentIndex(3);
         ui->serialComboBox->setCurrentIndex(1);
-        ui -> kpEdit -> setText("30.50");
-        ui -> kiEdit -> setText("00.01");
+        ui -> kpEdit -> setText("38.50");
+        ui -> kiEdit -> setText("00.03");
         ui -> kdEdit -> setText("00.01");
 
         QStringList parity = {"none"};
