@@ -351,7 +351,7 @@ void MainWindow::on_sendButton_clicked()
 
 void MainWindow::serialport_read()
 {
-    QString str;
+        QString str;
        QString cmd = "Command recieved: ";
        QString data = "Data recieved:\n";
        QThread::msleep(30);
@@ -369,14 +369,12 @@ void MainWindow::serialport_read()
 
            QString temp = str;
            qDebug() << "Command: " << temp << "\n" ;
-
-               //command split
-           ui -> textBrowser -> insertPlainText(cmd);
            temp.append("\n");
-           ui -> textBrowser -> insertPlainText(temp);
 
             if(temp == "SPID\n")
             {
+                ui -> textBrowser -> insertPlainText(cmd);
+                ui -> textBrowser -> insertPlainText(temp);
 
                 ui -> textBrowser -> insertPlainText(data);
                 temp2.chop(2);
@@ -399,6 +397,8 @@ void MainWindow::serialport_read()
 
             if(temp == "CTUN\n")
             {
+                ui -> textBrowser -> insertPlainText(cmd);
+                ui -> textBrowser -> insertPlainText(temp);
                 QString text = "CTUN cmd completed \n";
                 ui -> textBrowser -> insertPlainText(text);
                 a.fill(0);
@@ -414,6 +414,8 @@ void MainWindow::serialport_read()
 
             if((temp == "\u0002GPID\n" )||( temp == "GPID\n") )
             {
+                ui -> textBrowser -> insertPlainText(cmd);
+                ui -> textBrowser -> insertPlainText("GPID \n");
                 temp2.chop(2);
                 temp2 = temp2.right(8).toHex().toUpper();
                 qDebug() << "Total:" << temp2 << "\n" ;
