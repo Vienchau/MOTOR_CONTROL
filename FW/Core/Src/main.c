@@ -168,6 +168,7 @@ int main(void)
 	      {
 	        case NONE:
 	          SerialAcceptReceive();
+	          __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1);
 	          break;
 	        case SPID:
 	          SerialWriteComm(g_strCommand, g_nOption, g_nData);

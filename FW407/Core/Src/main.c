@@ -346,7 +346,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       case CTUN:
         if(g_nIndex <= 200)
         {
-          MotorTuning(90);
+          MotorTuning(25);
         }
         else
         {

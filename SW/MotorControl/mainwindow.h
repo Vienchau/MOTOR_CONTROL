@@ -7,7 +7,7 @@
 #include <QSerialPortInfo>
 #include <QTimer>
 #include <cstring>
-
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -48,10 +48,13 @@ private:
     void updateSerialPort();
     void plotConfig();
     void dataPIDProcessing(QByteArray &bdata, float * fKp, float *fKi, float *fKd);
-
+    void Ascii2int(int *a, int *b, int *c, int *d);
+    void AsciiConvertCase(int *a);
     QSerialPort *mSerial;
     QList <QSerialPortInfo> mSerialPorts;
     QTimer *mSerialScanTimer;
+
+
     QSharedPointer<QCPGraphDataContainer> mDatapid;
     QSharedPointer<QCPGraphDataContainer> mDatapos;
     QSharedPointer<QCPGraphDataContainer> mDatavel;
