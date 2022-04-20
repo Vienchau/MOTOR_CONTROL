@@ -8,7 +8,6 @@
 #include <QVector>
 
 int k = 0;
-int t = 0;
 QVector<double> a(201), b(201);
 
 QVector<double> c ={0,200}, d = {91.6667, 91.6667};
@@ -37,9 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
         ui->sizeComboBox->addItem(QStringLiteral("8"), QSerialPort::Data8);
         ui->sizeComboBox->setCurrentIndex(3);
         ui->serialComboBox->setCurrentIndex(1);
-        ui -> kpEdit -> setText("38.50");
-        ui -> kiEdit -> setText("00.03");
-        ui -> kdEdit -> setText("00.01");
+        ui -> kpEdit -> setText("30.00");
+        ui -> kiEdit -> setText("00.01");
+        ui -> kdEdit -> setText("00.55");
 
         QStringList parity = {"none"};
         ui -> parityComboBox -> addItems(parity);
@@ -48,18 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
         mSerialScanTimer->setInterval(5000);
         mSerialScanTimer->start();
 
-        ui-> requestButton -> setEnabled(false);
-        ui-> sendpidButton -> setEnabled(false);
-        ui-> tunningButton -> setEnabled(false);
-        ui-> motionButton -> setEnabled(false);
-        ui -> runButton -> setEnabled(false);
-        ui -> senparamsButton -> setEnabled(false);
-        ui -> getButton -> setEnabled(false);
-        ui -> sendButton -> setEnabled(false);
+        configAllButton(false);
 
         plotConfig();
-
-        //connect(mSerialScanTimer, &QTimer::timeout, this, &MainWindow::updateSerialPort);
 
         connect(mSerial, &QSerialPort::readyRead, this, &MainWindow::serialport_read);
 }
@@ -79,93 +69,93 @@ void MainWindow::updateSerialPort()
         }
 }
 
+void MainWindow::configAllButton(bool status)
+{
+    ui-> requestButton -> setEnabled(status);
+    ui-> sendpidButton -> setEnabled(status);
+    ui-> tunningButton -> setEnabled(status);
+    ui-> motionButton -> setEnabled(status);
+    ui -> runButton -> setEnabled(status);
+    ui -> senparamsButton -> setEnabled(status);
+    ui -> getButton -> setEnabled(status);
+    ui -> sendButton -> setEnabled(status);
+
+}
+
+void MainWindow:: plotSetting(QCustomPlot  *plot, const char* xLabel, const char * yLabel)
+{
+        QFont legendFont = font();
+        legendFont.setPointSize(8);
+        plot  -> yAxis->setLabel(yLabel);
+        plot  -> xAxis-> setLabel(xLabel);
+        plot  -> setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+        plot  -> legend -> setVisible(true);
+        plot  -> legend->setFont(legendFont);
+        plot  -> legend->setSelectedFont(legendFont);
+        plot  -> legend->setSelectableParts(QCPLegend::spItems);
+}
 
 void MainWindow::plotConfig()
 {
-        //PID tunning plot init
-        /*mDatapid = QSharedPointer<QCPGraphDataContainer>(new QCPGraphDataContainer);
-        ui->pidPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->pidPlot->legend->setVisible(true);
-        QFont legendFont = font();
-        legendFont.setPointSize(10);
-        ui->pidPlot->legend->setFont(legendFont);
-        ui->pidPlot->legend->setSelectedFont(legendFont);
-        ui->pidPlot->legend->setSelectableParts(QCPLegend::spItems);
-        ui->pidPlot->yAxis->setLabel("Magnitude");
-        ui->pidPlot->xAxis->setLabel("Time");
-        ui->pidPlot->clearGraphs();
-        ui->pidPlot->addGraph();*/
+            QPen pen;
+        //pid plot init//
+
+
         ui -> pidPlot -> addGraph();
         ui -> pidPlot -> graph(0) -> setLineStyle(QCPGraph::lsLine);
-        ui->pidPlot->graph(0)->setPen(QPen(Qt::black));
+        pen.setStyle(Qt::DashLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        ui->pidPlot->graph(0)->setPen(pen);
+
         ui -> pidPlot -> addGraph();
         ui -> pidPlot -> graph(1) -> setLineStyle(QCPGraph::lsLine);
-        ui->pidPlot->graph(1)->setPen(QPen(Qt::red));
+        ui->pidPlot->graph(1)->setPen(QPen(Qt::black));
+        ui->pidPlot->graph(1)->setName("Tunning");
+        ui->pidPlot->graph(0)->setName("Ref");
 
-        ui->pidPlot->yAxis->setLabel("Magnitude");
-        ui->pidPlot->xAxis->setLabel("Time");
-        ui->pidPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-
-        ui->pidPlot->graph(0)->setName("Tunning");
-        ui->pidPlot->graph(1)->setName("Ref");
-        ui->pidPlot->legend->setVisible(true);
-        QFont legendFont = font();
-        legendFont.setPointSize(8);
-        ui->pidPlot->legend->setFont(legendFont);
-        ui->pidPlot->legend->setSelectedFont(legendFont);
-        ui->pidPlot->legend->setSelectableParts(QCPLegend::spItems);
+        plotSetting(ui-> pidPlot, "Time", "Magnitude");
 
 
-        //Position plot init
-        mDatapos = QSharedPointer<QCPGraphDataContainer>(new QCPGraphDataContainer);
-        ui->posPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->posPlot->legend->setVisible(true);
-        //ui->posPlot->legend->setFont(legendFont);
-        //ui->posPlot->legend->setSelectedFont(legendFont);
-        ui->posPlot->legend->setSelectableParts(QCPLegend::spItems);
-        ui->posPlot->yAxis->setLabel("Magnitude");
-        ui->posPlot->xAxis->setLabel("Time");
-        //ui -> pidPlot -> xAxis -> setRange(0, 201);
-        //ui -> pidPlot -> xAxis -> setRange(0, 150);
-        ui->posPlot->clearGraphs();
-        ui->posPlot->addGraph();
+        //Position plot init//
+        ui -> posPlot -> addGraph();
+        ui -> posPlot -> graph(0) -> setLineStyle(QCPGraph::lsLine);
+        ui -> posPlot -> graph(0) -> setName("Posititon Ref");
 
-        ui->posPlot->graph()->setPen(QPen(Qt::black));
+        pen.setStyle(Qt::DashLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        ui -> posPlot ->graph(0)->setPen(pen);
 
-        //ui->posPlot->graph()->setData(mDatapos);
-        ui->posPlot->graph()->setName("Posititon");
+        ui -> posPlot -> addGraph();
+        ui -> posPlot -> graph(1) -> setPen(QPen(Qt::black));
+        ui -> posPlot -> graph(1) -> setLineStyle(QCPGraph::lsLine);
+        ui -> posPlot -> graph(1) -> setName("Posititon Act");
 
-        //Velocity plot init
-        mDatavel = QSharedPointer<QCPGraphDataContainer>(new QCPGraphDataContainer);
-        ui->velPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->velPlot->legend->setVisible(true);
-        //ui->velPlot->legend->setFont(legendFont);
-        //ui->velPlot->legend->setSelectedFont(legendFont);
-        ui->velPlot->legend->setSelectableParts(QCPLegend::spItems);
-        ui->velPlot->yAxis->setLabel("Magnitude");
-        ui->velPlot->xAxis->setLabel("Time");
-        ui->velPlot->clearGraphs();
-        ui->velPlot->addGraph();
+        plotSetting(ui-> posPlot, "Time", "Position");
 
-        ui->velPlot->graph()->setPen(QPen(Qt::black));
-        ui->velPlot->graph()->setData(mDatavel);
-        ui->velPlot->graph()->setName("Velocity");
+        //Velocity plot init//
+        ui -> velPlot -> addGraph();
+        ui -> velPlot -> graph() -> setLineStyle(QCPGraph::lsLine);
+        ui -> velPlot -> graph() -> setName("Velocity");
+        plotSetting(ui-> velPlot, "Time", "Velocity");
+        pen.setStyle(Qt::DashLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        ui -> velPlot ->graph()->setPen(pen);
 
-        //Acc plot init
-        mDataacc = QSharedPointer<QCPGraphDataContainer>(new QCPGraphDataContainer);
-        ui->accPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-        ui->accPlot->legend->setVisible(true);
-       //ui->accPlot->legend->setFont(legendFont);
-        //ui->accPlot->legend->setSelectedFont(legendFont);
-        ui->accPlot->legend->setSelectableParts(QCPLegend::spItems);
-        ui->accPlot->yAxis->setLabel("Magnitude");
-        ui->accPlot->xAxis->setLabel("Time");
-        ui->accPlot->clearGraphs();
-        ui->accPlot->addGraph();
 
-        ui->accPlot->graph()->setPen(QPen(Qt::black));
-        ui->accPlot->graph()->setData(mDataacc);
-        ui->accPlot->graph()->setName("Accelometer");
+        //Acc plot init//
+        ui -> accPlot -> addGraph();
+        ui -> accPlot -> graph() -> setLineStyle(QCPGraph::lsStepLeft);
+        ui -> accPlot -> graph() -> setName("Velocity");
+        plotSetting(ui-> accPlot, "Time", "Accelometer");
+        pen.setStyle(Qt::DashLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        ui -> accPlot ->graph()->setPen(pen);
+
+
 }
 
 void MainWindow::dataPIDProcessing(QByteArray &bdata, float *fKp, float *fKi, float *fKd)
@@ -302,18 +292,17 @@ void MainWindow::AsciiConvertCase(int *a)
 
 void MainWindow::on_openButton_clicked()
 {
-    ui->openButton->setEnabled(false);
+        ui->openButton->setEnabled(false);
         QString serialLoc  =  ui->serialComboBox->currentData().toString();
 
         mSerial->setPortName(serialLoc);
         mSerial->setBaudRate(static_cast<QSerialPort::BaudRate>(ui->baudComboBox->itemData(ui->baudComboBox->currentIndex()).toInt()));
         mSerial->setDataBits(static_cast<QSerialPort::DataBits>(ui->sizeComboBox->itemData(ui->sizeComboBox->currentIndex()).toInt()));
-
         mSerial->setParity(QSerialPort::NoParity);
         mSerial->setStopBits(QSerialPort::OneStop);
         mSerial->setFlowControl(QSerialPort::NoFlowControl);
 
-        if(mSerial->open(QIODevice::ReadWrite)) {
+            if(mSerial->open(QIODevice::ReadWrite)) {
 
             QString text = "SERIAL: OK!\n";
             ui->textBrowser->insertPlainText(text);
@@ -322,15 +311,8 @@ void MainWindow::on_openButton_clicked()
             ui->textBrowser->insertPlainText(text);
         }
 
-            ui-> requestButton -> setEnabled(true);
-            ui-> sendpidButton -> setEnabled(true);
-            ui-> tunningButton -> setEnabled(true);
-            ui-> motionButton -> setEnabled(true);
-            ui -> runButton -> setEnabled(true);
-            ui -> senparamsButton -> setEnabled(true);
-            ui -> getButton -> setEnabled(true);
-            ui -> sendButton -> setEnabled(true);
-            ui-> openButton ->setEnabled    (true);
+        configAllButton(true);
+        ui->openButton->setEnabled(true);
 }
 
 void MainWindow::on_sendButton_clicked()
@@ -351,37 +333,37 @@ void MainWindow::on_sendButton_clicked()
 
 void MainWindow::serialport_read()
 {
-        QString str;
+       QString strDataRev;
        QString cmd = "Command recieved: ";
        QString data = "Data recieved:\n";
        QThread::msleep(30);
-       QByteArray data_rev = mSerial -> readAll();
-       qDebug() << data_rev.size() << "\n" ;
-       if((data_rev.size() < 17) && (data_rev.size() >18))
+       QByteArray bDataRev = mSerial -> readAll();
+       qDebug() << bDataRev.size() << "\n" ;
+       if((bDataRev.size() < 17) && (bDataRev.size() >18))
        {
-          data_rev.clear();
+          bDataRev.clear();
        }
        else
        {
-           qDebug() << "data raw: " << data_rev << "\n" ;
-           str = (QString(data_rev));
-           QByteArray temp2 = data_rev;
+           qDebug() << "data raw: " << bDataRev << "\n" ;
+           strDataRev = (QString(bDataRev));
+           QByteArray bTempDataRev = bDataRev;
 
-           QString temp = str;
-           qDebug() << "Command: " << temp << "\n" ;
-           temp.append("\n");
+           //QString temp = strDataRev;
+           qDebug() << "Command: " << strDataRev << "\n" ;
+           strDataRev.append("\n");
 
-            if(temp == "SPID\n")
+            if(strDataRev == "SPID\n")
             {
                 ui -> textBrowser -> insertPlainText(cmd);
-                ui -> textBrowser -> insertPlainText(temp);
+                ui -> textBrowser -> insertPlainText(strDataRev);
 
                 ui -> textBrowser -> insertPlainText(data);
-                temp2.chop(2);
-                temp2 = temp2.right(8).toHex();
+                bTempDataRev.chop(2);
+                bTempDataRev = bTempDataRev.right(8).toHex();
 
                 float fKp, fKi, fKd;
-                dataPIDProcessing(temp2, &fKp, &fKi, &fKd);
+                dataPIDProcessing(bTempDataRev, &fKp, &fKi, &fKd);
 
                 QString text ="Kpset: " + QString::number(fKp) + "\n";
                 ui -> textBrowser -> insertPlainText(text);
@@ -395,83 +377,92 @@ void MainWindow::serialport_read()
                 qDebug() << "PID Pramas: " << QString::number(fKp) << " " << QString::number(fKi) << " " << QString::number(fKd) << "\n" ;
             }
 
-            if(temp == "CTUN\n")
+            if(strDataRev == "CTUN\n")
             {
                 ui -> textBrowser -> insertPlainText(cmd);
-                ui -> textBrowser -> insertPlainText(temp);
+                ui -> textBrowser -> insertPlainText(strDataRev);
                 QString text = "CTUN cmd completed \n";
                 ui -> textBrowser -> insertPlainText(text);
                 a.fill(0);
-                a.fill(0);
-                ui -> pidPlot -> graph(1) -> setData(c,d);
-                ui -> pidPlot -> graph(0) -> setData(a,b);
+                b.fill(0);
+                k = 0;
+                ui -> pidPlot -> graph(0) -> setData(c,d);
+                ui -> pidPlot -> graph(1) -> setData(a,b);
                 ui->pidPlot->rescaleAxes();
                 ui->pidPlot->replot();
                 ui-> pidPlot -> update();
-
-
             }
 
-            if((temp == "\u0002GPID\n" )||( temp == "GPID\n") )
+            if((strDataRev == "\u0002GPID\n" )||( strDataRev == "GPID\n") )
             {
                 ui -> textBrowser -> insertPlainText(cmd);
                 ui -> textBrowser -> insertPlainText("GPID \n");
-                temp2.chop(2);
-                temp2 = temp2.right(8).toHex().toUpper();
-                qDebug() << "Total:" << temp2 << "\n" ;
+                bTempDataRev.chop(2);
+                bTempDataRev = bTempDataRev.right(8).toHex().toUpper();
+                qDebug() << "Total:" << bTempDataRev << "\n" ;
+
+                long bCount;
+                long bPosition;
+                bool ok;
+
+                int iCount1 = static_cast<quint8>(bTempDataRev[4]);
+                int iCount2 = static_cast<quint8>(bTempDataRev[5]);
+                int iCount3 = static_cast<quint8>(bTempDataRev[6]);
+                int iCount4 = static_cast<quint8>(bTempDataRev[7]);
+                int iPos1 = static_cast<quint8>(bTempDataRev[12]);
+                int iPos2 = static_cast<quint8>(bTempDataRev[13]);
+                int iPos3 = static_cast<quint8>(bTempDataRev[14]);
+                int iPos4 = static_cast<quint8>(bTempDataRev[15]);
 
 
+                Ascii2int( &iCount1,&iCount2, &iCount3, &iCount4);
+                Ascii2int( &iPos1,&iPos2, &iPos3, &iPos4);
 
-                   long bCount;
-                   long bPosition;
-                   bool ok;
+                bCount= (double)(iCount1*4096 +iCount2*256 + iCount3*16 + iCount4);
+                bPosition= (double)(iPos1*4096 +iPos2*256 + iPos3*16 + iPos4);
 
-                   int iCount1 = static_cast<quint8>(temp2[4]);
-                   int iCount2 = static_cast<quint8>(temp2[5]);
-                   int iCount3 = static_cast<quint8>(temp2[6]);
-                   int iCount4 = static_cast<quint8>(temp2[7]);
-                   int iPos1 = static_cast<quint8>(temp2[12]);
-                   int iPos2 = static_cast<quint8>(temp2[13]);
-                   int iPos3 = static_cast<quint8>(temp2[14]);
-                   int iPos4 = static_cast<quint8>(temp2[15]);
-
-
-                   Ascii2int( &iCount1,&iCount2, &iCount3, &iCount4);
-                   Ascii2int( &iPos1,&iPos2, &iPos3, &iPos4);
-
-                   bCount= (double)(iCount1*4096 +iCount2*256 + iCount3*16 + iCount4);
-                   bPosition= (double)(iPos1*4096 +iPos2*256 + iPos3*16 + iPos4);
-
-
-
-
-                   if( (bPosition != 0) && (bPosition < 180) && (bCount != 0))
+                if( (bPosition != 0) && (bPosition < 180) && (bCount != 0) && (bCount < 200))
                    {
                        a[k] = bCount;
                        b[k] =bPosition;
-
-
-                   ui -> pidPlot -> graph(0) ->setData(a, b);
-
-
-                   ui->pidPlot->rescaleAxes();
-                   ui->pidPlot->replot();
-                   ui-> pidPlot -> update();
-                   qDebug() << "Positon: " <<bPosition  << " " << "Count: " <<bCount << "\n" ;
-                    k++;
-                    t++;
+                       ui -> pidPlot -> graph(1) ->setData(a, b);
+                       ui->pidPlot->rescaleAxes();
+                       ui->pidPlot->replot();
+                       ui-> pidPlot -> update();
+                       qDebug() << "Positon: " <<bPosition  << " " << "Count: " <<bCount << "\n" ;
+                       k++;
                     }
-
-                   if(k > bCount)
-                   {
-                       k = 0;
-                   }
-
+                else
+                {
+                    if(k>2)
+                    {
+                        if(b[k-1] < b[k-2])
+                        {
+                            a[k] = a[k - 1] + 1;
+                            b[k] = b[k -1] -1;
+                        }
+                        else if (b[k -1] == b[k-2])
+                        {
+                            a[k] = a[k - 1] + 1;
+                            b[k] = b[k -1];
+                        }
+                        else
+                        {
+                            a[k] = a[k - 1] + 1;
+                            b[k] = b[k -1] + 1;
+                        }
+                        ui -> pidPlot -> graph(1) ->setData(a, b);
+                        ui->pidPlot->rescaleAxes();
+                        ui->pidPlot->replot();
+                        ui-> pidPlot -> update();
+                        k++;
+                    }
+                }
             }
         //clear data remain
-           str.clear();
-           temp.clear();
-           data_rev.clear();
+           strDataRev.clear();
+           bTempDataRev.clear();
+           bDataRev.clear();
        }
        QScrollBar *sb = ui->textBrowser->verticalScrollBar();
        sb->setValue(sb->maximum());
@@ -561,8 +552,91 @@ void MainWindow::on_requestButton_clicked()
 
 void MainWindow::on_motionButton_clicked()
 {
+    QString sPosRef = ui ->posLineEdit->text();
+    QString sVelMax = ui ->velLineEdit->text();
+    QString sAccMax = ui ->accLineEdit->text();
+
+    double dPosRef = sPosRef.toDouble();
+    double dVelMax = sVelMax.toDouble();
+    double dAccMax = sAccMax.toDouble();
+
+    double tacc = dVelMax / dAccMax;
+    double tconst = (dPosRef - dAccMax*tacc*tacc)/dVelMax;
+
+    QVector<double> dtimevel = {0, tacc, tacc + tconst, 2*tacc + tconst, 2*tacc + tconst + 2 , 2*tacc + tconst + 4};
+    QVector<double> vecVelPlot = {0, dVelMax, dVelMax, 0, 0, 0};
+
+    QVector<double> dtime = {0,  2*tacc + tconst + 4};
+    QVector<double> vecPosRef ={dPosRef, dPosRef};
+
+    QVector<double> dtimeacc = {0, tacc, tacc + tconst, 2*tacc + tconst, 2*tacc + tconst + 2, 2*tacc + tconst + 4 };
+    QVector<double> vecAccRef = {dAccMax, 0, -dAccMax, 0, 0 };
+
+    ui -> posPlot -> graph(0) ->setData(dtime, vecPosRef);
+    ui -> posPlot->rescaleAxes();
+    ui -> posPlot->replot();
+    ui -> posPlot -> update();
+
+    ui -> velPlot -> graph() ->setData(dtimevel, vecVelPlot);
+    ui -> velPlot->rescaleAxes();
+    ui -> velPlot->replot();
+    ui -> velPlot -> update();
+
+    ui -> accPlot -> graph() ->setData(dtimeacc, vecAccRef);
+    ui -> accPlot->rescaleAxes();
+    ui -> accPlot->replot();
+    ui -> accPlot -> update();
+
+   /* double fTime[200];
+
+    for(int i = 0; i<200; i++)
+    {
+        positionRefC[i] = dPosRef;
+        if(i == 0)
+        {
+            fTime[i] = 0.025;
+        }
+        else
+        {
+            fTime[i] = fTime[i -1] + 0.025;
+        }
+     }
+
+    for(int i = 0; i <200; i++)
+    {
+        fCalPosition[i] = trapezoidalProfile->update(positionRefC[i]);
+
+        fCalVel[i]= trapezoidalProfile -> getVelocity();
+
+        fCalAcc[i] = trapezoidalProfile -> getAcceleration();
+
+
+    }
+
+    if(trapezoidalProfile->getFinished())
+    {
+
+    }
+    trapezoidalProfile -> reset();
+
+    std::vector<double> velVector;
+    velVector.assign(fCalVel, fCalVel + 200);
+
+    std::vector<double> timeVector;
+    timeVector.assign(fTime, fTime + 200);
+
+    QVector<double> QvelVector =  QVector<double>::fromStdVector(velVector);
+    QVector<double> QtimeVector =  QVector<double>::fromStdVector(timeVector);
+    ui -> velPlot -> graph() ->setData(QtimeVector, QvelVector);
+    ui -> velPlot->rescaleAxes();
+    ui -> velPlot->replot();
+    ui -> velPlot -> update();*/
+
+
+
 
 }
+
 
 void MainWindow::on_runButton_clicked()
 {

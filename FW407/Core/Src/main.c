@@ -180,7 +180,7 @@ int main(void)
 	  	          //get PID params
 	  	          tPIDControl.dKp = (float)g_nData[0] + (float)g_nData[1]/10;
 	  	          tPIDControl.dKi = (float)g_nData[2] + (float)g_nData[3]/100;
-	  	          tPIDControl.dKd = (float)g_nData[4] + (float)g_nData[5]/(pow((float)10,(float)g_nData[6]));
+	  	          tPIDControl.dKd = ((float)g_nData[4] + (float)g_nData[5]/(pow((float)10,(float)g_nData[6])))/100;
 
 	  	          tProcess = NONE;
 	  	          break;

@@ -7,6 +7,7 @@
 #include <QSerialPortInfo>
 #include <QTimer>
 #include <cstring>
+#include "MotionGenerator.h"
 #include <QVector>
 
 QT_BEGIN_NAMESPACE
@@ -46,10 +47,12 @@ public:
 
 private:
     void updateSerialPort();
+    void configAllButton(bool status);
     void plotConfig();
     void dataPIDProcessing(QByteArray &bdata, float * fKp, float *fKi, float *fKd);
     void Ascii2int(int *a, int *b, int *c, int *d);
     void AsciiConvertCase(int *a);
+    void plotSetting(QCustomPlot  *plot, const char* xLabel, const char * yLabel);
     QSerialPort *mSerial;
     QList <QSerialPortInfo> mSerialPorts;
     QTimer *mSerialScanTimer;
