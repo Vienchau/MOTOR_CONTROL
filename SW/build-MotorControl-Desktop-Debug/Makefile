@@ -50,13 +50,11 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../MotorControl/MotionGenerator.cpp \
-		../MotorControl/main.cpp \
+SOURCES       = ../MotorControl/main.cpp \
 		../MotorControl/mainwindow.cpp \
 		../MotorControl/qcustomplot.cpp moc_mainwindow.cpp \
 		moc_qcustomplot.cpp
-OBJECTS       = MotionGenerator.o \
-		main.o \
+OBJECTS       = main.o \
 		mainwindow.o \
 		qcustomplot.o \
 		moc_mainwindow.o \
@@ -239,10 +237,8 @@ DIST          = /home/vienchau/anaconda3/mkspecs/features/spec_pre.prf \
 		/home/vienchau/anaconda3/mkspecs/features/exceptions.prf \
 		/home/vienchau/anaconda3/mkspecs/features/yacc.prf \
 		/home/vienchau/anaconda3/mkspecs/features/lex.prf \
-		../MotorControl/MotorControl.pro ../MotorControl/MotionGenerator.h \
-		../MotorControl/mainwindow.h \
-		../MotorControl/qcustomplot.h ../MotorControl/MotionGenerator.cpp \
-		../MotorControl/main.cpp \
+		../MotorControl/MotorControl.pro ../MotorControl/mainwindow.h \
+		../MotorControl/qcustomplot.h ../MotorControl/main.cpp \
 		../MotorControl/mainwindow.cpp \
 		../MotorControl/qcustomplot.cpp
 QMAKE_TARGET  = MotorControl
@@ -640,8 +636,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/vienchau/anaconda3/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../MotorControl/MotionGenerator.h ../MotorControl/mainwindow.h ../MotorControl/qcustomplot.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../MotorControl/MotionGenerator.cpp ../MotorControl/main.cpp ../MotorControl/mainwindow.cpp ../MotorControl/qcustomplot.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../MotorControl/mainwindow.h ../MotorControl/qcustomplot.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../MotorControl/main.cpp ../MotorControl/mainwindow.cpp ../MotorControl/qcustomplot.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../MotorControl/mainwindow.ui $(DISTDIR)/
 
 
@@ -2184,9 +2180,6 @@ compiler_lex_clean:
 compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
-
-MotionGenerator.o: ../MotorControl/MotionGenerator.cpp ../MotorControl/MotionGenerator.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MotionGenerator.o ../MotorControl/MotionGenerator.cpp
 
 main.o: ../MotorControl/main.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/QMainWindow \

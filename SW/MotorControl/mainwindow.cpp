@@ -8,6 +8,8 @@
 #include <QVector>
 
 int k = 0;
+double posMax = 0;
+double posxl = 0;
 QVector<double> a(201), b(201);
 
 QVector<double> c ={0,200}, d = {91.6667, 91.6667};
@@ -48,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
         mSerialScanTimer->start();
 
         configAllButton(false);
+        ui -> clearButton -> setEnabled(false);
 
         plotConfig();
 
@@ -79,6 +82,12 @@ void MainWindow::configAllButton(bool status)
     ui -> senparamsButton -> setEnabled(status);
     ui -> getButton -> setEnabled(status);
     ui -> sendButton -> setEnabled(status);
+    ui -> clearPIDButton -> setEnabled(status);
+    ui -> clearReceiveButton -> setEnabled(status);
+    ui -> savePIDButton -> setEnabled(status);
+    ui -> infoPIDButton -> setEnabled(status);
+    ui -> closeButton -> setEnabled(status);
+
 
 }
 
@@ -320,9 +329,9 @@ void MainWindow::on_sendButton_clicked()
     if(mSerial-> isOpen())
         {
             QString str = ui ->sendEdit->text();
-            ui->sendEdit->clear();
             str.append("\r\n");
             mSerial -> write(str.toLocal8Bit());
+            ui -> clearButton -> setEnabled(true);
         }
         else
         {
@@ -430,7 +439,17 @@ void MainWindow::serialport_read()
                        ui->pidPlot->replot();
                        ui-> pidPlot -> update();
                        qDebug() << "Positon: " <<bPosition  << " " << "Count: " <<bCount << "\n" ;
+
+                        if(k>2)
+                        {
+                            if(b[k] > posMax)
+                            {
+                           posMax = b[k];
+                            }
+                        }
+                        posxl = b[k];
                        k++;
+
                     }
                 else
                 {
@@ -456,6 +475,7 @@ void MainWindow::serialport_read()
                         ui->pidPlot->replot();
                         ui-> pidPlot -> update();
                         k++;
+                        posxl = b[k];
                     }
                 }
             }
@@ -587,54 +607,6 @@ void MainWindow::on_motionButton_clicked()
     ui -> accPlot->replot();
     ui -> accPlot -> update();
 
-   /* double fTime[200];
-
-    for(int i = 0; i<200; i++)
-    {
-        positionRefC[i] = dPosRef;
-        if(i == 0)
-        {
-            fTime[i] = 0.025;
-        }
-        else
-        {
-            fTime[i] = fTime[i -1] + 0.025;
-        }
-     }
-
-    for(int i = 0; i <200; i++)
-    {
-        fCalPosition[i] = trapezoidalProfile->update(positionRefC[i]);
-
-        fCalVel[i]= trapezoidalProfile -> getVelocity();
-
-        fCalAcc[i] = trapezoidalProfile -> getAcceleration();
-
-
-    }
-
-    if(trapezoidalProfile->getFinished())
-    {
-
-    }
-    trapezoidalProfile -> reset();
-
-    std::vector<double> velVector;
-    velVector.assign(fCalVel, fCalVel + 200);
-
-    std::vector<double> timeVector;
-    timeVector.assign(fTime, fTime + 200);
-
-    QVector<double> QvelVector =  QVector<double>::fromStdVector(velVector);
-    QVector<double> QtimeVector =  QVector<double>::fromStdVector(timeVector);
-    ui -> velPlot -> graph() ->setData(QtimeVector, QvelVector);
-    ui -> velPlot->rescaleAxes();
-    ui -> velPlot->replot();
-    ui -> velPlot -> update();*/
-
-
-
-
 }
 
 
@@ -653,3 +625,60 @@ void MainWindow::on_getButton_clicked()
 
 }
 
+
+void MainWindow::on_savePIDButton_clicked()
+{
+    QString filename = QFileDialog::getSaveFileName(this,tr("Save pdf") , "", tr("Pdf files (*.pdf)"));
+
+        if (!filename.isEmpty()) {
+            ui->pidPlot->savePdf(filename);
+        }
+}
+
+void MainWindow::on_clearPIDButton_clicked()
+{
+            ui->kpEdit->clear();
+            ui->kiEdit->clear();
+            ui->kdEdit->clear();
+            QVector<double> emptx = {0}, empty ={0};
+            ui -> pidPlot -> graph(0) -> setData(emptx,empty);
+            ui -> pidPlot -> graph(1) -> setData(emptx,empty);
+            ui->pidPlot->rescaleAxes();
+            ui->pidPlot->replot();
+            ui-> pidPlot -> update();
+}
+
+void MainWindow::on_infoPIDButton_clicked()
+{
+    double POT = ((posMax - posxl)/posxl)*100;
+    double error = (posxl - 91.6667);
+
+    QString info = QString("PID Tunning information: \n");
+    info += QString("POT = " ) + QString::number(POT) + "%\n";
+    info  += QString("Error = ") + QString::number(error) + "pulse\n";
+
+    QMessageBox::information(this, "PID INFOMATION", info);
+}
+
+void MainWindow::on_clearReceiveButton_clicked()
+{
+        ui -> textBrowser -> clear();
+}
+
+void MainWindow::on_closeButton_clicked()
+{
+    if (mSerial->isOpen())
+        {
+            mSerial->close();
+            QString text = "Serial Port: Close\n";
+            ui->textBrowser->insertPlainText(text);
+            configAllButton(false);
+        }
+}
+
+void MainWindow::on_clearButton_clicked()
+{
+     ui->sendEdit->clear();
+     ui -> clearButton -> setEnabled(false);
+
+}

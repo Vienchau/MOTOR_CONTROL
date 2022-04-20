@@ -9,6 +9,7 @@
 #include <cstring>
 #include "MotionGenerator.h"
 #include <QVector>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,6 +41,18 @@ private slots:
 
     void on_getButton_clicked();
 
+
+    void on_savePIDButton_clicked();
+
+    void on_clearPIDButton_clicked();
+
+    void on_infoPIDButton_clicked();
+
+    void on_clearReceiveButton_clicked();
+
+    void on_closeButton_clicked();
+
+    void on_clearButton_clicked();
 
 public:
     MainWindow(QWidget *parent = nullptr);
