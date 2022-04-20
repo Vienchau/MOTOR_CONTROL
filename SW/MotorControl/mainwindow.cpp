@@ -1,4 +1,4 @@
-﻿#include "mainwindow.h"
+﻿ #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qcustomplot.h"
 #include <QDebug>
@@ -612,12 +612,54 @@ void MainWindow::on_motionButton_clicked()
 
 void MainWindow::on_runButton_clicked()
 {
-
+    QByteArray str("02 43 52 55 4E 00 00 00 00 00 00 00 00 00 00 00 16 03");
+    QByteArray t = str.replace(" ", "");
+    QByteArray bytes = QByteArray::fromHex(t);
+    mSerial->write(bytes);
 }
 
 void MainWindow::on_senparamsButton_clicked()
 {
+    QByteArray bDataMax;
+    std::string result;
 
+    QString sPosRef = ui ->posLineEdit->text();
+    QString sVelMax = ui ->accLineEdit->text();
+    QString sAccMax = ui ->velLineEdit->text();
+
+    double dPosRef = sPosRef.toDouble();
+    double dVelMax = sVelMax.toDouble();
+    double dAccMax = sAccMax.toDouble();
+
+
+    uint16_t bAccMax = (static_cast<uint16_t>(dAccMax));
+    result = (boost::format("%x") % bAccMax).str();
+    bDataMax.append(" " + QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+
+    uint16_t bVelMax = (static_cast<uint16_t>(dVelMax));
+    result = (boost::format("%x") % bVelMax).str();
+    bDataMax.append(" " + QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+
+    uint16_t bPosRef = (static_cast<uint16_t>(dPosRef));
+    result = (boost::format("%x") % bPosRef).str();
+    bDataMax.append(" " + QByteArray::fromHex(QString::fromStdString(result).toUtf8()));
+
+
+    qDebug() << bPosRef << "\n" ;
+    QByteArray bytes("02 43 53 45 54 00 00 00 00 00");
+    bytes = QByteArray::fromHex(bytes);
+    bytes.append(bDataMax);
+    QByteArray temp_byte("16 03");
+    temp_byte = QByteArray::fromHex(temp_byte);
+    bytes.append(temp_byte);
+    bytes.replace(" ", "");
+    qDebug() << bytes << "\n";
+    mSerial->write(bytes);
+    if(mSerial -> isWritable())
+            {
+        QString text = "Send succeed \n";
+        ui->textBrowser->insertPlainText(text);
+            }
 }
 
 void MainWindow::on_getButton_clicked()
@@ -654,8 +696,8 @@ void MainWindow::on_infoPIDButton_clicked()
     double error = (posxl - 91.6667);
 
     QString info = QString("PID Tunning information: \n");
-    info += QString("POT = " ) + QString::number(POT) + "%\n";
-    info  += QString("Error = ") + QString::number(error) + "pulse\n";
+    info += QString("POT = " ) + QString::number(POT) + " %\n";
+    info  += QString("Error = ") + QString::number(error) + " pulse\n";
 
     QMessageBox::information(this, "PID INFOMATION", info);
 }

@@ -220,11 +220,10 @@ int main(void)
 	  	          g_nActPulse = 0;
 	  	          g_nCmdPulse = 0 ;
 
-	  	          //Get Pmax, Vmax, Amax,
-	  	          tProfile.dAccelMax = (float)((g_nData[2]>>4) *4096) + (float)((g_nData[2] & 0x0F) *256) + (float)((g_nData[3] >> 4)*16) + (float)((g_nData[3]&0x0F)*1);
-	  	          tProfile.dVelMax = (float)((g_nData[4]>>4) *4096) + (float)((g_nData[4] & 0x0F) *256) + (float)((g_nData[5] >> 4)*16) + (float)((g_nData[5]&0x0F)*1);
-	  	          tProfile.dPosMax = (float)((g_nData[6]>>4) *4096) + (float)((g_nData[6] & 0x0F) *256) + (float)((g_nData[7] >> 4)*16) + (float)((g_nData[7]&0x0F)*1);
-
+	  	          //Get Pmax, Vmax, Amax
+	  	          tProfile.dAccelMax = (float)(g_nData[2])*256 + (float)(g_nData[3]);
+	  	          tProfile.dVelMax = (float)(g_nData[4])*256 + (float)(g_nData[5]);
+	  	          tProfile.dPosMax = (float)(g_nData[6])*256 + (float)(g_nData[7]);
 	  	          //Calculate params for trapezoidal speed
 	  	          tProfile.dA1 = 0.5f * tProfile.dAccelMax;
 	  	          tProfile.dA2 = tProfile.dVelMax;
