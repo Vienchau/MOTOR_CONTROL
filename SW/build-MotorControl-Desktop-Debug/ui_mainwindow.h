@@ -90,19 +90,18 @@ public:
     QComboBox *parityComboBox;
     QGroupBox *groupBox_6;
     QLineEdit *sendEdit;
-    QWidget *widget;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_13;
     QPushButton *sendButton;
     QPushButton *clearButton;
     QGroupBox *groupBox;
-    QWidget *widget1;
+    QWidget *layoutWidget2;
     QVBoxLayout *verticalLayout_10;
     QCustomPlot *posPlot;
     QCustomPlot *velPlot;
     QCustomPlot *accPlot;
-    QLabel *label_11;
     QGroupBox *groupBox_8;
-    QWidget *widget2;
+    QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayout_8;
     QVBoxLayout *verticalLayout_11;
     QPushButton *savePIDButton;
@@ -110,10 +109,11 @@ public:
     QVBoxLayout *verticalLayout_12;
     QPushButton *infoPIDButton;
     QPushButton *clearReceiveButton;
-    QWidget *widget3;
+    QWidget *layoutWidget4;
     QVBoxLayout *verticalLayout_9;
     QPushButton *openButton;
     QPushButton *closeButton;
+    QLabel *label_11;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -121,7 +121,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1329, 805);
+        MainWindow->resize(1352, 812);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         groupBox_4 = new QGroupBox(centralwidget);
@@ -132,7 +132,7 @@ public:
         textBrowser->setGeometry(QRect(10, 30, 371, 131));
         groupBox_3 = new QGroupBox(centralwidget);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        groupBox_3->setGeometry(QRect(410, 10, 211, 211));
+        groupBox_3->setGeometry(QRect(1130, 490, 211, 231));
         layoutWidget = new QWidget(groupBox_3);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(10, 20, 191, 111));
@@ -181,7 +181,7 @@ public:
 
         layoutWidget_4 = new QWidget(groupBox_3);
         layoutWidget_4->setObjectName(QStringLiteral("layoutWidget_4"));
-        layoutWidget_4->setGeometry(QRect(10, 130, 191, 71));
+        layoutWidget_4->setGeometry(QRect(10, 140, 191, 71));
         horizontalLayout_2 = new QHBoxLayout(layoutWidget_4);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -217,7 +217,7 @@ public:
 
         groupBox_7 = new QGroupBox(centralwidget);
         groupBox_7->setObjectName(QStringLiteral("groupBox_7"));
-        groupBox_7->setGeometry(QRect(10, 190, 391, 151));
+        groupBox_7->setGeometry(QRect(10, 190, 331, 151));
         layoutWidget_2 = new QWidget(groupBox_7);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
         layoutWidget_2->setGeometry(QRect(20, 20, 211, 121));
@@ -266,7 +266,7 @@ public:
 
         layoutWidget_3 = new QWidget(groupBox_7);
         layoutWidget_3->setObjectName(QStringLiteral("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(240, 20, 141, 121));
+        layoutWidget_3->setGeometry(QRect(240, 20, 82, 121));
         verticalLayout_7 = new QVBoxLayout(layoutWidget_3);
         verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
         verticalLayout_7->setContentsMargins(0, 0, 0, 0);
@@ -293,10 +293,10 @@ public:
         pidPlot->setGeometry(QRect(10, 30, 591, 371));
         groupBox_5 = new QGroupBox(centralwidget);
         groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
-        groupBox_5->setGeometry(QRect(1130, 30, 191, 241));
+        groupBox_5->setGeometry(QRect(1130, 10, 211, 241));
         layoutWidget_5 = new QWidget(groupBox_5);
         layoutWidget_5->setObjectName(QStringLiteral("layoutWidget_5"));
-        layoutWidget_5->setGeometry(QRect(10, 20, 171, 211));
+        layoutWidget_5->setGeometry(QRect(10, 20, 191, 211));
         verticalLayout_8 = new QVBoxLayout(layoutWidget_5);
         verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
         verticalLayout_8->setContentsMargins(0, 0, 0, 0);
@@ -362,22 +362,22 @@ public:
 
         groupBox_6 = new QGroupBox(centralwidget);
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
-        groupBox_6->setGeometry(QRect(1130, 340, 191, 171));
+        groupBox_6->setGeometry(QRect(1130, 310, 211, 171));
         sendEdit = new QLineEdit(groupBox_6);
         sendEdit->setObjectName(QStringLiteral("sendEdit"));
-        sendEdit->setGeometry(QRect(10, 30, 171, 51));
-        widget = new QWidget(groupBox_6);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 90, 171, 71));
-        verticalLayout_13 = new QVBoxLayout(widget);
+        sendEdit->setGeometry(QRect(10, 30, 191, 51));
+        layoutWidget1 = new QWidget(groupBox_6);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(10, 90, 191, 71));
+        verticalLayout_13 = new QVBoxLayout(layoutWidget1);
         verticalLayout_13->setObjectName(QStringLiteral("verticalLayout_13"));
         verticalLayout_13->setContentsMargins(0, 0, 0, 0);
-        sendButton = new QPushButton(widget);
+        sendButton = new QPushButton(layoutWidget1);
         sendButton->setObjectName(QStringLiteral("sendButton"));
 
         verticalLayout_13->addWidget(sendButton);
 
-        clearButton = new QPushButton(widget);
+        clearButton = new QPushButton(layoutWidget1);
         clearButton->setObjectName(QStringLiteral("clearButton"));
 
         verticalLayout_13->addWidget(clearButton);
@@ -385,49 +385,44 @@ public:
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setGeometry(QRect(630, 10, 491, 751));
-        widget1 = new QWidget(groupBox);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(10, 30, 471, 711));
-        verticalLayout_10 = new QVBoxLayout(widget1);
+        layoutWidget2 = new QWidget(groupBox);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(10, 30, 471, 711));
+        verticalLayout_10 = new QVBoxLayout(layoutWidget2);
         verticalLayout_10->setObjectName(QStringLiteral("verticalLayout_10"));
         verticalLayout_10->setContentsMargins(0, 0, 0, 0);
-        posPlot = new QCustomPlot(widget1);
+        posPlot = new QCustomPlot(layoutWidget2);
         posPlot->setObjectName(QStringLiteral("posPlot"));
 
         verticalLayout_10->addWidget(posPlot);
 
-        velPlot = new QCustomPlot(widget1);
+        velPlot = new QCustomPlot(layoutWidget2);
         velPlot->setObjectName(QStringLiteral("velPlot"));
 
         verticalLayout_10->addWidget(velPlot);
 
-        accPlot = new QCustomPlot(widget1);
+        accPlot = new QCustomPlot(layoutWidget2);
         accPlot->setObjectName(QStringLiteral("accPlot"));
 
         verticalLayout_10->addWidget(accPlot);
 
-        label_11 = new QLabel(centralwidget);
-        label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(1150, 620, 161, 141));
-        label_11->setPixmap(QPixmap(QString::fromUtf8("../../../../../../../../media/vienchau/DATA/MY_WORK/tai_lieu/logo/Logo BK.png")));
-        label_11->setScaledContents(true);
         groupBox_8 = new QGroupBox(centralwidget);
         groupBox_8->setObjectName(QStringLiteral("groupBox_8"));
-        groupBox_8->setGeometry(QRect(410, 229, 211, 111));
-        widget2 = new QWidget(groupBox_8);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(10, 20, 191, 91));
-        horizontalLayout_8 = new QHBoxLayout(widget2);
+        groupBox_8->setGeometry(QRect(390, 220, 211, 111));
+        layoutWidget3 = new QWidget(groupBox_8);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(10, 20, 191, 91));
+        horizontalLayout_8 = new QHBoxLayout(layoutWidget3);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
         verticalLayout_11 = new QVBoxLayout();
         verticalLayout_11->setObjectName(QStringLiteral("verticalLayout_11"));
-        savePIDButton = new QPushButton(widget2);
+        savePIDButton = new QPushButton(layoutWidget3);
         savePIDButton->setObjectName(QStringLiteral("savePIDButton"));
 
         verticalLayout_11->addWidget(savePIDButton);
 
-        clearPIDButton = new QPushButton(widget2);
+        clearPIDButton = new QPushButton(layoutWidget3);
         clearPIDButton->setObjectName(QStringLiteral("clearPIDButton"));
 
         verticalLayout_11->addWidget(clearPIDButton);
@@ -437,12 +432,12 @@ public:
 
         verticalLayout_12 = new QVBoxLayout();
         verticalLayout_12->setObjectName(QStringLiteral("verticalLayout_12"));
-        infoPIDButton = new QPushButton(widget2);
+        infoPIDButton = new QPushButton(layoutWidget3);
         infoPIDButton->setObjectName(QStringLiteral("infoPIDButton"));
 
         verticalLayout_12->addWidget(infoPIDButton);
 
-        clearReceiveButton = new QPushButton(widget2);
+        clearReceiveButton = new QPushButton(layoutWidget3);
         clearReceiveButton->setObjectName(QStringLiteral("clearReceiveButton"));
 
         verticalLayout_12->addWidget(clearReceiveButton);
@@ -450,26 +445,31 @@ public:
 
         horizontalLayout_8->addLayout(verticalLayout_12);
 
-        widget3 = new QWidget(centralwidget);
-        widget3->setObjectName(QStringLiteral("widget3"));
-        widget3->setGeometry(QRect(1130, 280, 191, 54));
-        verticalLayout_9 = new QVBoxLayout(widget3);
+        layoutWidget4 = new QWidget(centralwidget);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(1130, 250, 211, 58));
+        verticalLayout_9 = new QVBoxLayout(layoutWidget4);
         verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
         verticalLayout_9->setContentsMargins(0, 0, 0, 0);
-        openButton = new QPushButton(widget3);
+        openButton = new QPushButton(layoutWidget4);
         openButton->setObjectName(QStringLiteral("openButton"));
 
         verticalLayout_9->addWidget(openButton);
 
-        closeButton = new QPushButton(widget3);
+        closeButton = new QPushButton(layoutWidget4);
         closeButton->setObjectName(QStringLiteral("closeButton"));
 
         verticalLayout_9->addWidget(closeButton);
 
+        label_11 = new QLabel(centralwidget);
+        label_11->setObjectName(QStringLiteral("label_11"));
+        label_11->setGeometry(QRect(440, 30, 161, 141));
+        label_11->setPixmap(QPixmap(QString::fromUtf8("../../../../../../../../media/vienchau/DATA/MY_WORK/tai_lieu/logo/Logo BK.png")));
+        label_11->setScaledContents(true);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1329, 20));
+        menubar->setGeometry(QRect(0, 0, 1352, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));

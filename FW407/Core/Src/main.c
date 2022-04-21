@@ -66,7 +66,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 extern PID_CONTROL_t tPIDControl;
-extern PROFILE_t tProfile;
+extern PROFILE_t  tProfile;
 extern PROCESS_t tProcess;
 
 extern bool g_bDataAvailable;
@@ -122,8 +122,6 @@ int main(void)
   SerialInit();
   MotorInit();
   tProcess = NONE;
-  /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -211,6 +209,7 @@ int main(void)
 	  	          }
 	  	          g_bDataAvailable = false;
 	  	          SerialAcceptReceive();
+	  	          memset(g_strCommand, '\0', 4);
 	  	          tProcess = NONE;
 	  	          break;
 	  	        case CSET:
@@ -235,10 +234,11 @@ int main(void)
 
 	  	          tProfile.dMidStep1 = tProfile.dVelMax / tProfile.dAccelMax;
 	  	          tProfile.dMidStep2 = tProfile.dPosMax / tProfile.dVelMax;
-	  	          tProfile.dMidStep3 = tProfile.dMidStep1 / tProfile.dMidStep2;
+	  	          tProfile.dMidStep3 = tProfile.dMidStep1 + tProfile.dMidStep2;
 
 	  	          tProfile.nTime = 0;
 	  	          tProcess = NONE;
+	  	          memset(g_strCommand, '\0', 4);
 	  	          break;
 
 	  	        case CRUN_RES:
@@ -248,10 +248,12 @@ int main(void)
 	  	          __HAL_TIM_SetCounter(&htim4, 32768);
 	  	          g_nIndex = 0 ;
 	  	          tProcess = CRUN;
+	  	          memset(g_strCommand, '\0', 4);
 	  	          break;
 	  	        case CRUN:
 	  	          g_bDataAvailable = false;
 	  	          SerialAcceptReceive();
+	  	          memset(g_strCommand, '\0', 4);
 	  	          break;
 	  	        case GRMS:
 	  	          for(int index = 0 ; index < (g_nIndex - 1); index ++)
@@ -261,7 +263,7 @@ int main(void)
 	  	            g_nTxData[6] = (tPIDControl.nActPosSample[index]&0xFF00) >>8;
 	  	            g_nTxData[7] = (tPIDControl.nActPosSample[index]&0xFF);
 	  	            g_nTxData[4] = ((uint16_t)g_dPIDError&0xFF00)>>8;
-	  	            g_nTxData[5] = ((uint16_t)g_dPIDError&0xFF)>>8;
+	  	            g_nTxData[5] = ((uint16_t)g_dPIDError&0xFF);
 	  	            g_nTxData[2] = (index&0xFF00) >>8;
 	  	            g_nTxData[3] = (index&0xFF);
 	  	            g_nTxData[0] = ((g_nIndex -2)&0xFF00)>>8;

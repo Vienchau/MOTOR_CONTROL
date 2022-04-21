@@ -30,7 +30,7 @@ extern void MotorInit(void);
 extern uint16_t ConvertDegToPulse(uint16_t nDeg);
 extern uint16_t ConvertPulseToDeg(uint16_t nPulse);
 extern void MotorGetPulse(uint32_t *nPulse);
-extern void MotorMovePos(void);
+extern void MotorMovePos();
 extern void MotorTuning(uint16_t nPos);
 
 #endif /* INC_MOTOR_H_ */

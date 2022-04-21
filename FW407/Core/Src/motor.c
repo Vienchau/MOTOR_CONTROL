@@ -59,19 +59,19 @@ void MotorInit(void)
     PIDReset(&tPIDControl);
     PIDInit(&tPIDControl, 1., 0., 0.00);
     MotorSetDir(0);
-    MotorSetDuty(0);
+    //MotorSetDuty(0);
 }
 
 uint16_t ConvertDegToPulse(uint16_t nDeg)
 {
-    float dPulse = nDeg * 4 * 11 * 30 / 360;
+    float dPulse = nDeg * 4 * 330 / 360;
 
     return (uint16_t) dPulse;
 }
 
 uint16_t ConvertPulseToDeg(uint16_t nPulse)
 {
-    float dDeg = nPulse * 360 / 4 / 11 / 30;
+    float dDeg = nPulse * 360 / 4 / 330;
     return (uint16_t) dDeg;
 }
 
@@ -80,7 +80,7 @@ void MotorGetPulse(uint32_t *nPulse)
     *nPulse = __HAL_TIM_GetCounter(&htim4);
 }
 
-void MotorMovePos(void)
+void MotorMovePos()
 {
     uint32_t nPulse;
     MotorGetPulse(&nPulse);

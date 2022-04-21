@@ -7,10 +7,11 @@
 #include <boost/format.hpp>
 #include <QVector>
 
-int k = 0;
+int k = 0, counter = 0;
 double posMax = 0;
 double posxl = 0;
 QVector<double> a(201), b(201);
+QVector<double> e(1001), f(1001);
 
 QVector<double> c ={0,200}, d = {91.6667, 91.6667};
 
@@ -392,14 +393,72 @@ void MainWindow::serialport_read()
                 ui -> textBrowser -> insertPlainText(strDataRev);
                 QString text = "CTUN cmd completed \n";
                 ui -> textBrowser -> insertPlainText(text);
-                a.fill(0);
-                b.fill(0);
-                k = 0;
-                ui -> pidPlot -> graph(0) -> setData(c,d);
-                ui -> pidPlot -> graph(1) -> setData(a,b);
-                ui->pidPlot->rescaleAxes();
-                ui->pidPlot->replot();
-                ui-> pidPlot -> update();
+
+            }
+
+            if((strDataRev == "\u0002GRMS\n" )||( strDataRev == "GRMS\n") )
+            {
+                ui -> textBrowser -> insertPlainText(cmd);
+                ui -> textBrowser -> insertPlainText("GRMS \n");
+                bTempDataRev.chop(2);
+                bTempDataRev = bTempDataRev.right(8).toHex().toUpper();
+                qDebug() << "Total:" << bTempDataRev << "\n" ;
+
+                long bCount;
+                long bPosition;
+                bool ok;
+
+                int iCount1 = static_cast<quint8>(bTempDataRev[4]);
+                int iCount2 = static_cast<quint8>(bTempDataRev[5]);
+                int iCount3 = static_cast<quint8>(bTempDataRev[6]);
+                int iCount4 = static_cast<quint8>(bTempDataRev[7]);
+                int iPos1 = static_cast<quint8>(bTempDataRev[12]);
+                int iPos2 = static_cast<quint8>(bTempDataRev[13]);
+                int iPos3 = static_cast<quint8>(bTempDataRev[14]);
+                int iPos4 = static_cast<quint8>(bTempDataRev[15]);
+
+
+                Ascii2int( &iCount1,&iCount2, &iCount3, &iCount4);
+                Ascii2int( &iPos1,&iPos2, &iPos3, &iPos4);
+
+                bCount= (double)((iCount1*4096 +iCount2*256 + iCount3*16 + iCount4)/100);
+                bPosition= (double)(iPos1*4096 +iPos2*256 + iPos3*16 + iPos4);
+
+                if( (bPosition != 0) && (bPosition < 2880) && (bCount != 0) && (bCount < 1000))
+                   {
+                       e[counter] = bCount;
+                       f[counter] =bPosition;
+                       ui -> posPlot -> graph(1) ->setData(e, f);
+                       ui->posPlot->rescaleAxes();
+                       ui->posPlot->replot();
+                       ui-> posPlot -> update();
+                       qDebug() << "Positon: " <<bPosition  << " " << "Count: " <<bCount << "\n" ;
+                    }
+                else
+                {
+                    if(counter>2)
+                    {
+                        if(f[counter-1] < f[counter-2])
+                        {
+                            e[counter] = e[counter - 1] + 1;
+                            f[counter] = f[counter -1] -1;
+                        }
+                        else if (f[counter -1] == f[counter-2])
+                        {
+                            e[counter] = e[counter - 1] + 1;
+                            f[counter] = f[counter -1];
+                        }
+                        else
+                        {
+                            e[counter] = e[counter - 1] + 1;
+                            f[counter] = f[counter -1] + 1;
+                        }
+                        ui -> posPlot -> graph(1) ->setData(e, f);
+                        ui->posPlot->rescaleAxes();
+                        ui->posPlot->replot();
+                        ui-> posPlot -> update();
+                    }
+                }
             }
 
             if((strDataRev == "\u0002GPID\n" )||( strDataRev == "GPID\n") )
@@ -560,6 +619,14 @@ void MainWindow::on_tunningButton_clicked()
             QByteArray t = str.replace(" ", "");
             QByteArray bytes = QByteArray::fromHex(t);
             mSerial->write(bytes);
+            a.fill(0);
+            b.fill(0);
+            k = 0;
+            ui -> pidPlot -> graph(0) -> setData(c,d);
+            ui -> pidPlot -> graph(1) -> setData(a,b);
+            ui->pidPlot->rescaleAxes();
+            ui->pidPlot->replot();
+            ui-> pidPlot -> update();
 }
 
 void MainWindow::on_requestButton_clicked()
@@ -612,10 +679,17 @@ void MainWindow::on_motionButton_clicked()
 
 void MainWindow::on_runButton_clicked()
 {
+
     QByteArray str("02 43 52 55 4E 00 00 00 00 00 00 00 00 00 00 00 16 03");
     QByteArray t = str.replace(" ", "");
-    QByteArray bytes = QByteArray::fromHex(t);
-    mSerial->write(bytes);
+    QByteArray byte = QByteArray::fromHex(t);
+    mSerial->write(byte);
+    qDebug() << "Command CRUN sent\n" ;
+    if(mSerial -> isWritable())
+            {
+        QString text = "Send succeed \n";
+        ui->textBrowser->insertPlainText(text);
+            }
 }
 
 void MainWindow::on_senparamsButton_clicked()
@@ -664,7 +738,16 @@ void MainWindow::on_senparamsButton_clicked()
 
 void MainWindow::on_getButton_clicked()
 {
-
+    QByteArray str("02 47 52 4D 53 00 00 00 00 00 00 00 00 00 00 00 16 03");
+    QByteArray t = str.replace(" ", "");
+    QByteArray byte = QByteArray::fromHex(t);
+    mSerial->write(byte);
+    qDebug() << "Command GRMS sent\n" ;
+    if(mSerial -> isWritable())
+            {
+        QString text = "Send succeed \n";
+        ui->textBrowser->insertPlainText(text);
+            }
 }
 
 
