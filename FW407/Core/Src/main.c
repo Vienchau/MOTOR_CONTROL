@@ -122,6 +122,8 @@ int main(void)
   SerialInit();
   MotorInit();
   tProcess = NONE;
+  /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -205,6 +207,7 @@ int main(void)
 	  	            memset(g_nTxOption, '\0', 3);
 	  	            memset(g_nTxData, '\0', 8);
 
+
 	  	            HAL_Delay(30);
 	  	          }
 	  	          g_bDataAvailable = false;
@@ -238,7 +241,7 @@ int main(void)
 
 	  	          tProfile.nTime = 0;
 	  	          tProcess = NONE;
-	  	          memset(g_strCommand, '\0', 4);
+	  	          //memset(g_strCommand, '\0', 4);
 	  	          break;
 
 	  	        case CRUN_RES:
@@ -248,12 +251,11 @@ int main(void)
 	  	          __HAL_TIM_SetCounter(&htim4, 32768);
 	  	          g_nIndex = 0 ;
 	  	          tProcess = CRUN;
-	  	          memset(g_strCommand, '\0', 4);
+	  	          //memset(g_strCommand, '\0', 4);
 	  	          break;
 	  	        case CRUN:
 	  	          g_bDataAvailable = false;
-	  	          SerialAcceptReceive();
-	  	          memset(g_strCommand, '\0', 4);
+	  	          //memset(g_strCommand, '\0', 4);
 	  	          break;
 	  	        case GRMS:
 	  	          for(int index = 0 ; index < (g_nIndex - 1); index ++)

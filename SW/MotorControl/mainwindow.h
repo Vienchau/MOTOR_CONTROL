@@ -7,7 +7,7 @@
 #include <QSerialPortInfo>
 #include <QTimer>
 #include <cstring>
-#include "MotionGenerator.h"
+
 #include <QVector>
 #include <QMessageBox>
 

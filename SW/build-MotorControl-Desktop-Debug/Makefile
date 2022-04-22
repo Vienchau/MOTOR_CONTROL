@@ -1170,7 +1170,7 @@ moc_mainwindow.cpp: /home/vienchau/anaconda3/include/qt/QtWidgets/QMainWindow \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
-		../MotorControl/MotionGenerator.h \
+		/home/vienchau/anaconda3/include/qt/QtWidgets/QMessageBox \
 		../MotorControl/mainwindow.h \
 		moc_predefs.h \
 		/home/vienchau/anaconda3/bin/moc
@@ -2679,7 +2679,7 @@ main.o: ../MotorControl/main.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
-		../MotorControl/MotionGenerator.h \
+		/home/vienchau/anaconda3/include/qt/QtWidgets/QMessageBox \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/QApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../MotorControl/main.cpp
 
@@ -3181,7 +3181,7 @@ mainwindow.o: ../MotorControl/mainwindow.cpp ../MotorControl/mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportglobal.h \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/QSerialPortInfo \
 		/home/vienchau/anaconda3/include/qt/QtSerialPort/qserialportinfo.h \
-		../MotorControl/MotionGenerator.h \
+		/home/vienchau/anaconda3/include/qt/QtWidgets/QMessageBox \
 		ui_mainwindow.h \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/QAction \
 		/home/vienchau/anaconda3/include/qt/QtWidgets/QApplication \
